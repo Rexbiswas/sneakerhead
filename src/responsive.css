@@ -586,3 +586,77 @@
         font-size: 14px !important;
     }
 }
+
+/* --- Home Component Responsive (New Sections) --- */
+
+@media (max-width: 1024px) {
+    .featured-collection {
+        padding: 80px 5% !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Featured Collection */
+    .featured-collection {
+        padding: 60px 5% !important;
+    }
+
+    .featured-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 30px !important;
+    }
+
+    /* Innovation Section */
+    .innovation-section {
+        min-height: 80vh !important;
+    }
+
+    .innovation-content {
+        height: auto !important;
+        padding: 50px 0;
+        flex-direction: column;
+    }
+
+    .blueprint-text {
+        font-size: 18vw !important;
+    }
+
+    .innovation-sneaker {
+        width: 85% !important;
+        max-width: 400px !important;
+        margin: 20px 0;
+    }
+
+    /* Card 3D */
+    .card-3d-wrapper {
+        height: 400px !important;
+    }
+
+    /* Hotspots - Adjust positions slightly for mobile if needed, 
+       or let them float. Hiding on very small screens might be cleaner 
+       but let's keep them for now. */
+}
+
+@media (max-width: 480px) {
+    .featured-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .card-3d-wrapper {
+        height: 380px !important;
+    }
+
+    .innovation-sneaker {
+        width: 95% !important;
+    }
+
+    .blueprint-text {
+        font-size: 20vw !important;
+    }
+
+    .hotspot {
+        /* On very small screens, maybe scale down hotspots */
+        transform: scale(0.8);
+    }
+}

@@ -187,7 +187,7 @@ const Home = ({ cartCount }) => {
 
 function FeaturedCollection() {
   return (
-    <div style={{ position: 'relative', background: '#0a0a0a', padding: '100px 5%', zIndex: 20, overflow: 'hidden' }}>
+    <div className="featured-collection" style={{ position: 'relative', background: '#0a0a0a', padding: '100px 5%', zIndex: 20, overflow: 'hidden' }}>
       {/* Background Ambience */}
       <div style={{
         position: 'absolute', top: '20%', left: '-10%', width: '500px', height: '500px',
@@ -213,7 +213,7 @@ function FeaturedCollection() {
         </h1>
       </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', position: 'relative', zIndex: 1 }}>
+      <div className="featured-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', position: 'relative', zIndex: 1 }}>
         <Card3D title="Streetwear" subtitle="Urban Legends" image="sneaker_1.png" color="#f9c216" />
         <Card3D title="Performance" subtitle="Run The Future" image="sneaker_1.png" color="#4ecdc4" />
         <Card3D title="Limited" subtitle="Exclusive Drops" image="sneaker_1.png" color="#ff6b6b" />
@@ -224,7 +224,7 @@ function FeaturedCollection() {
 
 function InnovationSection() {
   return (
-    <div style={{
+    <div className="innovation-section" style={{
       position: 'relative',
       minHeight: '100vh',
       background: '#050505',
@@ -242,10 +242,11 @@ function InnovationSection() {
         opacity: 0.5
       }}></div>
 
-      <div style={{ position: 'relative', width: '100%', maxWidth: '1200px', height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="innovation-content" style={{ position: 'relative', width: '100%', maxWidth: '1200px', height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
         {/* Big Text Behind */}
         <motion.h1
+          className="blueprint-text"
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
@@ -259,6 +260,7 @@ function InnovationSection() {
 
         {/* Sneaker */}
         <motion.img
+          className="innovation-sneaker"
           src="sneaker_1.png"
           initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
           whileInView={{ opacity: 1, scale: 1, rotate: -15 }}
@@ -283,6 +285,7 @@ function InnovationSection() {
 function Hotspot({ top, left, label, delay }) {
   return (
     <motion.div
+      className="hotspot"
       initial={{ opacity: 0, width: 0 }}
       whileInView={{ opacity: 1, width: 'auto' }}
       transition={{ delay, duration: 0.5 }}
@@ -337,6 +340,7 @@ function Card3D({ title, subtitle, image, color }) {
 
   return (
     <motion.div
+      className="card-3d-wrapper"
       style={{
         perspective: 1000,
         height: '450px',
