@@ -1,0 +1,373 @@
+/* Home Container */
+.home-container {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    /* Adjust for navbar */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Left Content - Text */
+.home-content {
+    flex: 1;
+    z-index: 2;
+}
+
+.home-content h2 {
+    color: var(--secondary-text-color);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.home-content h1 {
+    font-size: 60px;
+    line-height: 1.1;
+    font-weight: 800;
+    color: var(--primary-text-color);
+    margin-bottom: 25px;
+}
+
+.home-content span {
+    color: var(--primary-background-color);
+    text-shadow: 2px 2px 0px #000;
+}
+
+.home-description {
+    color: #444;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+/* Giant Background Text */
+.giant-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20vw;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
+    z-index: 0;
+    white-space: nowrap;
+    opacity: 0.4;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Floating Glass Cards */
+.glass-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 15px;
+    color: var(--primary-text-color);
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    z-index: 2;
+}
+
+.gc-1 {
+    top: auto;
+    bottom: 25%;
+    right: 10%;
+}
+
+.gc-2 {
+    bottom: 20%;
+    left: -10%;
+}
+
+.gc-3 {
+    top: 10%;
+    left: 10%;
+    background: rgba(252, 193, 11, 0.2);
+    color: #444;
+}
+
+
+/* Enhanced CTA Button */
+.cta-button {
+    display: inline-block;
+    padding: 15px 45px;
+    background: var(--btn-bg-dark);
+    color: var(--gold-bright);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.cta-button:hover::before {
+    left: 100%;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    background: var(--gold-bright);
+    color: var(--btn-bg-dark);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #555;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    z-index: 5;
+}
+
+.scroll-mouse {
+    width: 20px;
+    height: 35px;
+    border: 2px solid #555;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+}
+
+.scroll-wheel {
+    width: 4px;
+    height: 8px;
+    background-color: #555;
+    border-radius: 2px;
+}
+
+/* Right Content - Image */
+.home-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-image {
+    width: 120%;
+    /* Large overlapping image */
+    max-width: 600px;
+    transform: rotate(-15deg);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* Decorative Background Elements (Orbs) */
+.home-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 0;
+    opacity: 0.6;
+    animation: floatOrb 15s infinite ease-in-out;
+}
+
+.home-orb-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #f9c216, transparent 70%);
+    top: -150px;
+    left: -150px;
+    animation-delay: 0s;
+}
+
+.home-orb-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #4ecdc4, transparent 70%);
+    bottom: -50px;
+    right: 20%;
+    animation-delay: -5s;
+}
+
+.home-orb-3 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #ff6b6b, transparent 70%);
+    top: 40%;
+    left: 45%;
+    animation-delay: -10s;
+    opacity: 0.4;
+}
+
+@keyframes floatOrb {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 40px) scale(0.9);
+    }
+}
+
+/* Slide Title Animation */
+.slide-title-anim {
+    display: inline-block;
+    animation: slideUpReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slideUpReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) skewY(5deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) skewY(0deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .home-container {
+        flex-direction: column-reverse;
+        justify-content: center;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    .home-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+    }
+
+    .home-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-image {
+        width: 80%;
+        max-width: 350px;
+        transform: rotate(-5deg);
+    }
+}
+
+/* --- Unexpected eCommerce UI Elements --- */
+
+/* 1. Grain/Noise Overlay */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* 2. Tilted Infinite Marquee */
+.marquee-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    background: var(--btn-bg-dark);
+    color: var(--gold-bright);
+    padding: 12px 0;
+    transform: rotate(-3deg);
+    z-index: 10;
+    border-top: 2px solid var(--gold-bright);
+    border-bottom: 2px solid var(--gold-bright);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.marquee-content {
+    display: flex;
+    white-space: nowrap;
+}
+
+.marquee-item {
+    padding: 0 40px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 20px;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 3. Holographic Price Tag */
+.holo-price {
+    position: absolute;
+    top: 5%;
+    right: 15%;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 15px 30px;
+    border-radius: 0 25px 0 25px;
+    color: var(--btn-bg-dark);
+    font-weight: 900;
+    font-size: 32px;
+    z-index: 6;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    transform-origin: center;
+}
+
+.holo-price .currency {
+    font-size: 18px;
+    vertical-align: top;
+    margin-right: 4px;
+    color: var(--secondary-text-color);
+}
+
+.holo-price .label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 1px;
+    margin-bottom: -5px;
+}

@@ -1,0 +1,189 @@
+/* root element */
+:root {
+    --primary-background-gradient: linear-gradient(#feebc1, #feebc2);
+    --primary-text-color: #232323;
+    --secondary-text-color: #4537f7;
+    --border-color: #f3f3f3;
+    --primary-background-color: #f9c216;
+    --gold-bright: #fcc10b;
+    --gold-dark: #b49430;
+    --btn-bg-dark: #0a0a0a;
+    --text-white: #ffffff;
+}
+
+/* general styles*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: var(--primary-background-gradient);
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    position: relative;
+    z-index: 100;
+}
+
+/* logo styles */
+.logo-image-container .circle {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--primary-text-color);
+    margin: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.logo-image-container .circle:hover {
+    transform: scale(1.2);
+}
+
+.logo-image-container {
+    cursor: pointer;
+}
+
+.logo-image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo-container {
+    border: 2px solid var(--border-color);
+    background-color: #f3e7c8;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* nav component styles */
+
+.nav-component,
+.nav-component-cart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* nav component cart styles */
+.nav-component-cart {
+    position: relative;
+    margin-right: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-component-cart span {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    color: var(--primary-text-color);
+    background-color: var(--primary-background-color);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* nav component pay styles */
+
+.nav-component-pay {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+
+/* navbar link */
+
+.nav-links ul li {
+    display: inline;
+    list-style-type: none;
+}
+
+.nav-links ul li a {
+    text-decoration: none;
+    color: var(--primary-text-color);
+    padding: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+
+.nav-links ul li a.active {
+    color: var(--primary-background-color);
+}
+
+/* responsive styles */
+.menu-icon {
+    display: none;
+    cursor: pointer;
+    color: var(--primary-text-color);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 20%;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.menu-icon:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* animation style */
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

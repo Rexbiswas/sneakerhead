@@ -1,0 +1,588 @@
+/* Navbar Responsive */
+@media (max-width: 1024px) {
+    .menu-icon {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        width: 250px;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        z-index: 1000;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        border-radius: 15px;
+    }
+
+    .nav-links.active {
+        display: flex;
+        animation: slideDown 0.3s ease-out forwards;
+    }
+
+    .nav-links ul {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links ul li {
+        display: block;
+        width: 100%;
+    }
+
+    .nav-links ul li a {
+        display: block;
+        padding: 10px;
+    }
+}
+
+/* Shop Component Responsive (Tablet & Mobile) */
+@media (max-width: 1024px) {
+
+    /* Reset Main Container Flow - keep it relative for absolute children */
+    .products-container {
+        width: 95%;
+        height: 350px;
+        /* Rigid height */
+        margin: 10px auto;
+        overflow: hidden;
+        position: relative;
+        /* Ensure children are relative to this */
+        z-index: 1;
+        /* Bring it up so it's not behind body bg if that's an issue, though original was -1 */
+    }
+
+    /* Adjust decoration circles to fit new container - Absolute Positioning */
+    .product-circle,
+    .outer-product-circle,
+    .outer-product-circle-1,
+    .outer-product-circle-2,
+    .outer-product-circle-3 {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        bottom: auto;
+        margin: 0;
+    }
+
+    .product-circle {
+        top: 15%;
+        /* Moved to top */
+        width: 100px;
+        height: 100px;
+        z-index: 5;
+    }
+
+    .outer-product-circle {
+        width: 140px;
+        height: 140px;
+        padding: 20px;
+        top: 15%;
+        /* Moved to top */
+        z-index: 4;
+    }
+
+    .outer-product-circle-1 {
+        width: 200px;
+        height: 200px;
+        padding: 30px;
+        top: 15%;
+        /* Moved to top */
+        z-index: 3;
+    }
+
+    .outer-product-circle-2 {
+        width: 280px;
+        height: 280px;
+        top: 15%;
+        /* Moved to top */
+        padding: 40px;
+        display: block;
+        z-index: 2;
+        opacity: 0.6;
+    }
+
+    .outer-product-circle-3 {
+        width: 380px;
+        height: 380px;
+        top: 15%;
+        /* Moved to top */
+        padding: 50px;
+        display: block;
+        z-index: 1;
+        opacity: 0.4;
+    }
+
+    /* Restore floating animated circles but keep them contained */
+    .product-circle-container,
+    .product-circle-reflect-container {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        /* Let clicks pass through */
+        overflow: hidden;
+        /* Ensure they don't cause scroll */
+        z-index: 10;
+    }
+
+    .product-circle-container .product-circle-1 {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        top: 20%;
+        left: 10%;
+        bottom: auto;
+    }
+
+    .product-circle-reflect-container .product-circle-2 {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        top: 70%;
+        left: 85%;
+        bottom: auto;
+    }
+
+    /* Product Details Section - Overlay on Yellow Container */
+    .product-details {
+        position: absolute;
+        top: 120px;
+        /* Position inside the yellow container */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        flex-direction: row;
+        /* Horizontal alignment for breadcrumb/next */
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        z-index: 20;
+        /* Ensure on top of circles */
+    }
+
+    /* Hide specific text as requested */
+    .span-product-details,
+    .breadcrumb-separator {
+        display: none;
+    }
+
+    /* Also hide the slash if we are hiding the text after it, usually looks cleaner */
+    .product-details-content {
+        color: #333;
+        font-size: 15px;
+    }
+
+    .product-details-content .product-details-home {
+        color: #333;
+    }
+
+    .product-heading {
+        display: none;
+    }
+
+    .product-heading h1 {
+        font-size: 24px;
+        display: none;
+    }
+
+    .product-details-next {
+        margin-bottom: 0;
+        color: #333;
+        font-size: 15px;
+    }
+
+    .second-product-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        bottom: auto !important;
+        right: auto !important;
+        transform: none !important;
+        width: 90%;
+        margin: -100px auto 30px auto !important;
+        /* Overlap the yellow container */
+        display: flex;
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 30px;
+        z-index: 15;
+        background-color: #fde6c9;
+        /* Re-apply radial gradient background if needed */
+        background-image:
+            radial-gradient(at 0% 0%, #fedfb8 0px, transparent 50%),
+            radial-gradient(at 100% 0%, #ffe8bf 0px, transparent 50%),
+            radial-gradient(at 100% 100%, #ffe8bf 0px, transparent 50%),
+            radial-gradient(at 0% 100%, #ffe8bf 0px, transparent 50%);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border-radius: 30px;
+        height: auto !important;
+        /* Allow content to dictate height */
+    }
+
+    /* Adjust the small cards container to wrap properly but keep design */
+    .second-product-small-cards {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    /* Inner Columns */
+    .second-product-content,
+    .second-product-container-2,
+    .second-product-container-3 {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+
+    /* New mobile heading inside card */
+    .product-heading-mobile {
+        display: block !important;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .product-heading-mobile h1 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+
+    .second-product-heading h1 {
+        width: 100%;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .second-product-heading p {
+        width: 100%;
+        margin: 0 auto 20px auto;
+    }
+
+    .second-product-small-cards {
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    /* Main Product Image - Desktop Size maintained */
+    /* Main Product Image - Desktop Size maintained */
+    .second-product-img {
+        right: auto;
+        margin: 10px auto;
+        width: 300px !important;
+        height: 300px !important;
+    }
+
+    .second-product-img img {
+        width: 250px !important;
+        height: 250px !important;
+    }
+
+    /* Reviews and Choices */
+    .second-product-reviews-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .second-product-reviews-icons,
+    .color-selection,
+    .size-selection-container,
+    .button-container {
+        justify-content: center;
+        display: flex;
+    }
+
+    .size-selection-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .size-selection {
+        justify-content: center;
+    }
+
+    /* Related Products / Search Container */
+    .product-search-container {
+        position: relative;
+        margin: 40px auto;
+        text-align: center;
+        padding-bottom: 40px;
+    }
+
+    .cards-container {
+        position: relative;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .second-product-container {
+        width: 95%;
+        padding: 20px 10px;
+    }
+
+    .second-product-heading h1 {
+        font-size: 20px;
+    }
+
+    .small-card {
+        width: 70px;
+        height: 70px;
+    }
+
+    .size-box {
+        width: 45px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+/* --- Added Responsive Rules --- */
+
+/* Laptop Auth Modal */
+@media (max-width: 1024px) {
+    .auth-card {
+        width: 60% !important;
+        height: auto !important;
+        min-height: 550px;
+    }
+}
+
+/* Mobile Auth Modal */
+@media (max-width: 480px) {
+    .auth-card {
+        width: 90% !important;
+        height: auto !important;
+        padding: 20px !important;
+        min-height: 480px;
+    }
+
+    /* Ensure faces fit */
+    .auth-card>div {
+        padding: 20px !important;
+    }
+
+    /* Form Inputs Responsive */
+    .auth-card input {
+        width: 100% !important;
+        font-size: 14px !important;
+        padding: 12px !important;
+    }
+
+    .auth-card h2 {
+        font-size: 24px !important;
+        margin-bottom: 20px !important;
+    }
+}
+
+/* Shop Page Mobile Adjustments */
+@media (max-width: 1024px) {
+
+    /* Reset absolute positioning for cleaner mobile flow */
+    /* Reset absolute positioning for cleaner mobile flow */
+    .product-search {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 50px auto 20px auto !important;
+        width: 100% !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .product-search .search-line {
+        width: 80px !important;
+        margin: 5px auto !important;
+    }
+
+    .social-connect {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        margin: 0 auto 30px auto !important;
+        /* Spacing below search */
+        justify-content: center !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        padding-right: 30px !important;
+    }
+
+    .social-icons {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+
+    /* Cards Grid Mobile */
+    .cards-wrapper {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        margin: 30px auto !important;
+        padding: 20px !important;
+        /* Force single column */
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 30px !important;
+    }
+
+    .cards {
+        width: 90% !important;
+        max-width: 320px;
+    }
+
+    .card-price {
+        font-size: 16px !important;
+    }
+}
+
+/* Blogs Page Mobile */
+@media (max-width: 768px) {
+    .blogs-grid {
+        /* Override inline grid */
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+    }
+}
+
+/* --- Footer Responsive --- */
+
+@media (max-width: 1024px) {
+    .footer-content {
+        padding: 60px 5% 30px !important;
+    }
+
+    .footer-cta h1 {
+        font-size: 50px !important;
+    }
+
+    .footer-cta div {
+        margin-bottom: 50px !important;
+    }
+
+    .footer-grid {
+        gap: 30px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 40px 20px 20px !important;
+    }
+
+    .footer-cta {
+        margin-bottom: 40px !important;
+    }
+
+    .footer-cta h1 {
+        font-size: 32px !important;
+        letter-spacing: 0 !important;
+    }
+
+    .footer-cta button {
+        padding: 12px 30px !important;
+        font-size: 14px !important;
+        margin-top: 10px !important;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+        text-align: center;
+        padding-top: 30px !important;
+        gap: 40px !important;
+    }
+
+    .footer-grid>div {
+        align-items: center !important;
+    }
+
+    /* Socials on mobile */
+    .footer-grid>div:last-child>div:nth-child(2) {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        margin-top: 40px !important;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        text-align: center;
+    }
+}
+
+/* Responsive Holo Price */
+
+/* For smaller tablets and large phones */
+@media (max-width: 968px) {
+    .holo-price {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
+        margin: 10px auto !important;
+        width: fit-content !important;
+        padding: 2px 15px !important;
+        line-height: 1.2 !important;
+        transform: none !important;
+        font-size: 24px !important;
+        border-radius: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+        background: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .holo-price .currency {
+        font-size: 16px !important;
+    }
+
+    .holo-price .label {
+        font-size: 10px !important;
+        display: inline-block !important;
+        margin-right: 5px !important;
+    }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+    .holo-price {
+        font-size: 20px !important;
+        padding: 2px 10px !important;
+        margin: 10px auto 30px auto !important;
+    }
+
+    .holo-price .currency {
+        font-size: 14px !important;
+    }
+}
