@@ -44,6 +44,38 @@
         display: block;
         padding: 10px;
     }
+
+    .logo-text h1 {
+        font-size: 22px;
+    }
+
+    .nav-component-pay {
+        margin-right: 8px;
+    }
+
+    .nav-component-pay a {
+        font-size: 13px !important;
+        margin-right: 5px !important;
+    }
+
+    .nav-component-pay span {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-component-pay {
+        margin-right: 5px;
+    }
+
+    .nav-component-pay a {
+        font-size: 11px !important;
+        margin-right: 3px !important;
+    }
+
+    .nav-component-pay span {
+        font-size: 11px;
+    }
 }
 
 /* Shop Component Responsive (Tablet & Mobile) */
