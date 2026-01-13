@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, useGLTF, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
@@ -29,7 +29,7 @@ const SneakerMesh = () => {
 const Sneaker3D = ({ selectedColor }) => {
     return (
         <div
-            className={`shoe-${selectedColor}`}
+            className={`shoe - ${selectedColor} `}
             style={{ width: '100%', height: '100%', transition: 'filter 0.3s ease' }}
         >
             <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 14], fov: 45 }} style={{ filter: 'brightness(1.1)' }}>

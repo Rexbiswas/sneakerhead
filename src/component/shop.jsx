@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Navbar from './navbar'
 import Sneaker3D from './Sneaker3D'

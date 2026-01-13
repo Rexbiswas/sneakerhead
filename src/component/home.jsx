@@ -1,9 +1,16 @@
 import React, { useState, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Navbar from './navbar';
 import Footer from './footer';
 import '../home.css'; // Import the styles
 import { useHomeAnimations } from './HomeAnimations';
+
+const slides = [
+  { id: 1, img: 'sneaker_1.png', filter: 'hue-rotate(265deg) saturate(0.5) brightness(1.3)', title: 'Future Style', price: '$149.00' },
+  { id: 2, img: 'sneaker_1.png', filter: 'hue-rotate(180deg) brightness(1.1)', title: 'Neon Cyber', price: '$189.00' },
+  { id: 3, img: 'sneaker_1.png', filter: 'hue-rotate(16deg) saturate(1.2)', title: 'Red Fury', price: '$169.00' }
+];
 
 const Home = ({ cartCount }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -12,12 +19,6 @@ const Home = ({ cartCount }) => {
   const containerRef = useRef();
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const slides = [
-    { id: 1, img: 'sneaker_1.png', filter: 'hue-rotate(265deg) saturate(0.5) brightness(1.3)', title: 'Future Style', price: '$149.00' },
-    { id: 2, img: 'sneaker_1.png', filter: 'hue-rotate(180deg) brightness(1.1)', title: 'Neon Cyber', price: '$189.00' },
-    { id: 3, img: 'sneaker_1.png', filter: 'hue-rotate(16deg) saturate(1.2)', title: 'Red Fury', price: '$169.00' }
-  ];
 
   const minSwipeDistance = 50;
 
@@ -328,7 +329,6 @@ function Card3D({ title, subtitle, image, color }) {
 
   const rotateX = useSpring(useTransform(y, [-100, 100], [15, -15]), { stiffness: 150, damping: 20 });
   const rotateY = useSpring(useTransform(x, [-100, 100], [-15, 15]), { stiffness: 150, damping: 20 });
-  const z = useSpring(useTransform(x, [-100, 100], [0, 50]), { stiffness: 150, damping: 20 }); // Added subtle Z lift
 
   function handleMouseMove(event) {
     const rect = event.currentTarget.getBoundingClientRect();

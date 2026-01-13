@@ -692,3 +692,101 @@
         transform: scale(0.8);
     }
 }
+
+/* --- Specific Device Optimizations --- */
+
+/* Galaxy S8+ (360px x 740px) & Z Fold 5 Cover (Narrow) */
+@media (max-width: 375px) {
+    .logo-text h1 {
+        font-size: 18px !important;
+    }
+
+    .nav-component-pay a {
+        font-size: 10px !important;
+        margin-right: 2px !important;
+    }
+
+    .nav-component-pay span {
+        font-size: 10px !important;
+    }
+
+    .nav-component-cart svg,
+    .menu-icon svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .nav-component-cart {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .menu-icon {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    /* Tighten home content for narrow screens */
+    .home-content h1 {
+        font-size: 32px !important;
+    }
+
+    .home-content h2 {
+        font-size: 14px !important;
+    }
+
+    /* Adjust product cards for very small widths */
+    .cards {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    /* Ensure footer buttons don't overflow */
+    .footer-cta button {
+        width: 100% !important;
+        padding: 12px 10px !important;
+    }
+}
+
+/* Galaxy Z Fold 5 Unfolded (Approx 768px - Tablet Mode) */
+@media (min-width: 700px) and (max-width: 800px) {
+
+    /* Optimize Grid for square-ish aspect ratio */
+    .featured-grid,
+    .cards-wrapper {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+
+    /* Adjust padding to use screen estate */
+    .featured-collection {
+        padding: 60px 30px !important;
+    }
+
+    .innovation-content {
+        flex-direction: column !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .innovation-sneaker {
+        max-width: 400px !important;
+    }
+
+    /* Ensure Navbar fits well */
+    .nav-links {
+        display: none;
+        /* Keep hamburger menu for this width usually, or switch to small text links */
+    }
+
+    .menu-icon {
+        display: flex;
+        /* Force hamburger if 768 is breakpoint */
+    }
+
+    /* Ensure Auth Modal fits in weird aspect ratios */
+    .auth-card {
+        width: 70% !important;
+        min-height: 500px !important;
+    }
+}

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import Navbar from './navbar';
 import Footer from './footer';
+// eslint-disable-next-line no-unused-vars
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 const blogsData = [
