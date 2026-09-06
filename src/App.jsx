@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/home';
-import Shop from './components/shop';
-import Blogs from './components/blogs';
+import Home from './pages/home';
+import Shop from './pages/shops';
+import Blogs from './pages/blogs';
 import Footer from './components/footer';
 function App() {
     const [cartItems, setCartItems] = useState([]);

@@ -346,3 +346,10 @@
     letter-spacing: 1px;
     margin-bottom: -5px;
 }
+
+@media (max-width: 768px) {
+    .cta-button {
+        padding: 10px 25px;
+        font-size: 14px;
+    }
+}

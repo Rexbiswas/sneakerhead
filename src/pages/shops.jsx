@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 // eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import Navbar from './navbar'
-import Sneaker3D from './Sneaker3D'
+import Navbar from '../components/navbar'
+import Sneaker3D from '../components/Sneaker3D'
 
 const Shop = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity, addToCart }) => {
   const [rating, setRating] = useState(4);

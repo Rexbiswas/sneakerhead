@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react';
-// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import Navbar from './navbar';
-import Footer from './footer';
-import '../home.css'; // Import the styles
-import { useHomeAnimations } from './HomeAnimations';
+import Navbar from '../components/navbar';
+import Footer from '../components/footer';
+import '../style/home.css'; 
+import { useHomeAnimations } from '../utils/HomeAnimations';
 
 const slides = [
   { id: 1, img: 'sneaker_1.png', filter: 'hue-rotate(265deg) saturate(0.5) brightness(1.3)', title: 'Future Style', price: '$149.00' },
