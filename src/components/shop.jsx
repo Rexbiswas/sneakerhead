@@ -4,11 +4,44 @@ import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from
 import Navbar from './navbar'
 import Sneaker3D from './Sneaker3D'
 
-const Shop = ({ cartCount, handleAddToCart }) => {
+const Shop = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity, addToCart }) => {
   const [rating, setRating] = useState(4);
   const [selectedColor, setSelectedColor] = useState('yellow');
   const [selectedSize, setSelectedSize] = useState(40);
   const [addedItems, setAddedItems] = useState({});
+
+  const featuredProducts = [
+    {
+      id: 1,
+      name: "Nike Air Max 270 to Chuck Taylor",
+      desc: "Nike's Air Force 1s were among the most popular sneaker this year",
+      price: "$150",
+      img: "sneaker_1.png"
+    },
+    {
+      id: 2,
+      name: "Air Jordan 1 High OG",
+      desc: "The classic silhouette that started it all, featuring premium materials.",
+      price: "$180",
+      img: "sneaker_1.png"
+    },
+    {
+      id: 3,
+      name: "Adidas Yeezy Boost 350",
+      desc: "Unmatched comfort and style with signature Primeknit uppers.",
+      price: "$220",
+      img: "sneaker_1.png"
+    }
+  ];
+  const [currentFeaturedIdx, setCurrentFeaturedIdx] = useState(0);
+
+  const handleNextProduct = () => {
+    setCurrentFeaturedIdx((prev) => (prev + 1) % featuredProducts.length);
+  };
+
+  const handlePrevProduct = () => {
+    setCurrentFeaturedIdx((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length);
+  };
 
   // Filter Logic
   const [activeFilter, setActiveFilter] = useState('All');
@@ -52,7 +85,14 @@ const Shop = ({ cartCount, handleAddToCart }) => {
 
   return (
     <>
-      <Navbar cartCount={cartCount} />
+      <Navbar 
+        cartCount={cartCount} 
+        isCartOpen={isCartOpen}
+        setIsCartOpen={setIsCartOpen}
+        cartItems={cartItems}
+        removeFromCart={removeFromCart}
+        updateQuantity={updateQuantity}
+      />
       <main>
         {/* shops */}
         <motion.div
@@ -91,12 +131,12 @@ const Shop = ({ cartCount, handleAddToCart }) => {
           </div>
           <div className='product-details-next'>
             <span>Next Product</span>
-            <div className='product-svg-icon'>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className='product-svg-icon' style={{ display: 'flex', alignItems: 'center' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handlePrevProduct} style={{ cursor: 'pointer' }}>
                 <path d="M20 12H4M4 12L10 18M4 12L10 6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               &nbsp; &nbsp;
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handleNextProduct} style={{ cursor: 'pointer' }}>
                 <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
@@ -115,12 +155,12 @@ const Shop = ({ cartCount, handleAddToCart }) => {
             <div className='second-product-heading'>
               <h1 style={{ fontSize: "30px", marginBottom: "10px", textTransform: "uppercase" }}>Product Details</h1>
               <h1>
-                {"Nike Air Max 270 to Chuck Taylor".split(" ").map((word, index) => (
+                {featuredProducts[currentFeaturedIdx].name.split(" ").map((word, index) => (
                   <motion.span
-                    key={index}
+                    key={`${currentFeaturedIdx}-${index}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
+                    transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
                     style={{ display: "inline-block", marginRight: "8px" }}
                   >
                     {word}
@@ -128,11 +168,12 @@ const Shop = ({ cartCount, handleAddToCart }) => {
                 ))}
               </h1>
               <motion.p
+                key={`desc-${currentFeaturedIdx}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
               >
-                Nike's Air Force 1s were among the most popular sneaker this year
+                {featuredProducts[currentFeaturedIdx].desc}
               </motion.p>
             </div>
             <div className='second-product-small-cards'>
@@ -294,7 +335,17 @@ const Shop = ({ cartCount, handleAddToCart }) => {
                   </div>
                 </div>
                 <div className='button-container' style={{ marginTop: "12px" }}>
-                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleAddToCart}>
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }} 
+                    whileTap={{ scale: 0.95 }} 
+                    onClick={() => {
+                      addToCart({
+                        ...featuredProducts[currentFeaturedIdx],
+                        color: selectedColor,
+                        size: selectedSize
+                      });
+                    }}
+                  >
                     <span>Add To Cart</span>
                   </motion.button>
                 </div>
@@ -476,6 +527,7 @@ const Shop = ({ cartCount, handleAddToCart }) => {
                       <motion.button
                         whileHover={{ scale: 1.05, boxShadow: '0 6px 15px rgba(249, 194, 22, 0.5)' }}
                         whileTap={{ scale: 0.95 }}
+                        onClick={() => addToCart(item)}
                         style={{
                           marginRight: '10px',
                           padding: '8px 16px',
@@ -494,7 +546,7 @@ const Shop = ({ cartCount, handleAddToCart }) => {
                       <button
                         className={`card-add-btn ${addedItems[item.id] ? 'added' : ''}`}
                         onClick={() => {
-                          handleAddToCart();
+                          addToCart(item);
                           setAddedItems(prev => ({ ...prev, [item.id]: true }));
                           setTimeout(() => {
                             setAddedItems(prev => ({ ...prev, [item.id]: false }));

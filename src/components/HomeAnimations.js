@@ -47,26 +47,8 @@ export const useHomeAnimations = (containerRef) => {
             delay: 1
         });
 
-        gsap.to(".scroll-wheel", {
-            y: 10,
-            opacity: 0,
-            duration: 1.5,
-            repeat: -1,
-            ease: "none"
-        });
 
-        gsap.fromTo(".scroll-indicator",
-            { opacity: 0.6, y: 0 },
-            { opacity: 1, y: -5, duration: 1, repeat: -1, yoyo: true, ease: "sine.inOut" }
-        );
 
-        // Marquee
-        gsap.to(".marquee-content", {
-            x: "-50%",
-            duration: 20,
-            repeat: -1,
-            ease: "linear"
-        });
 
         gsap.fromTo(".holo-price",
             { y: 0, rotation: 5, scale: 1 },

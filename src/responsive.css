@@ -276,11 +276,17 @@
 
     /* Inner Columns */
     .second-product-content,
-    .second-product-container-2,
     .second-product-container-3 {
         width: 100%;
         text-align: center;
         margin: 0;
+    }
+
+    .second-product-container-2 {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        order: -1;
     }
 
     /* New mobile heading inside card */
@@ -320,8 +326,8 @@
     .second-product-img {
         right: auto;
         margin: 10px auto;
-        width: 300px !important;
-        height: 300px !important;
+        width: 220px !important;
+        height: 220px !important;
     }
 
     .second-product-img img {

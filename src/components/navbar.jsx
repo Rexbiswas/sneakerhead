@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
+import CartSidebar from './CartSidebar'
 
-function Navbar({ cartCount }) {
+function Navbar({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
@@ -69,11 +70,11 @@ function Navbar({ cartCount }) {
               &nbsp;
               <span>0.00</span>
             </div>
-            <div className='nav-component-cart'>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={20} width={20}>
+            <div className='nav-component-cart' onClick={(e) => { e.stopPropagation(); setIsCartOpen(true); }} style={{ cursor: 'pointer' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={20} width={20} style={{ pointerEvents: 'none' }}>
                 <path d="M9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6H9ZM7 6H4C3.44772 6 3 6.44772 3 7V21C3 21.5523 3.44772 22 4 22H20C20.5523 22 21 21.5523 21 21V7C21 6.44772 20.5523 6 20 6H17C17 3.23858 14.7614 1 12 1C9.23858 1 7 3.23858 7 6ZM9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10H17C17 12.7614 14.7614 15 12 15C9.23858 15 7 12.7614 7 10H9Z"></path>
               </svg>
-              <span>{cartCount || 0}</span>
+              <span style={{ pointerEvents: 'none' }}>{cartCount || 0}</span>
             </div>
             <div className='menu-icon' onClick={toggleMenu}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={30} width={30}>
@@ -93,6 +94,14 @@ function Navbar({ cartCount }) {
           <AuthModal mode={authMode} onClose={() => setShowAuth(false)} setMode={setAuthMode} />
         )}
       </AnimatePresence>
+
+      <CartSidebar 
+        isCartOpen={isCartOpen}
+        setIsCartOpen={setIsCartOpen}
+        cartItems={cartItems}
+        removeFromCart={removeFromCart}
+        updateQuantity={updateQuantity}
+      />
     </>
   )
 }

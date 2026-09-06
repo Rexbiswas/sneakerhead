@@ -12,7 +12,7 @@ const slides = [
   { id: 3, img: 'sneaker_1.png', filter: 'hue-rotate(16deg) saturate(1.2)', title: 'Red Fury', price: '$169.00' }
 ];
 
-const Home = ({ cartCount }) => {
+const Home = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -55,7 +55,14 @@ const Home = ({ cartCount }) => {
 
   return (
     <>
-      <Navbar cartCount={cartCount} />
+      <Navbar 
+        cartCount={cartCount} 
+        isCartOpen={isCartOpen}
+        setIsCartOpen={setIsCartOpen}
+        cartItems={cartItems}
+        removeFromCart={removeFromCart}
+        updateQuantity={updateQuantity}
+      />
       <div className="home-container" ref={containerRef} onMouseMove={(e) => {
         const { innerWidth, innerHeight } = window;
         const x = (e.clientX / innerWidth - 0.5) * 2;
@@ -82,26 +89,6 @@ const Home = ({ cartCount }) => {
           <a href="/shop" className="cta-button">
             Explore Collection
           </a>
-
-          <div className="scroll-indicator">
-            <div className="scroll-mouse">
-              <div className="scroll-wheel"></div>
-            </div>
-            <span>SCROLL</span>
-          </div>
-
-          <div className="marquee-wrapper" style={{ left: "0", width: "100%", position: "relative" }}>
-            <div className="marquee-content">
-              <span className="marquee-item">⚡ LIMITED EDITION DROP</span>
-              <span className="marquee-item">★ NEW SEASON</span>
-              <span className="marquee-item">⚡ FAST SHIPPING</span>
-              <span className="marquee-item">★ PREMIUM QUALITY</span>
-              <span className="marquee-item">⚡ LIMITED EDITION DROP</span>
-              <span className="marquee-item">★ NEW SEASON</span>
-              <span className="marquee-item">⚡ FAST SHIPPING</span>
-              <span className="marquee-item">★ PREMIUM QUALITY</span>
-            </div>
-          </div>
         </div>
 
         {/* Giant Background Text */}
@@ -176,6 +163,19 @@ const Home = ({ cartCount }) => {
             <span className="currency">{slides[currentSlide].price}</span>
           </div>
 
+        </div>
+      </div>
+
+      <div className="marquee-wrapper">
+        <div className="marquee-content">
+          <span className="marquee-item">⚡ LIMITED EDITION DROP</span>
+          <span className="marquee-item">★ NEW SEASON</span>
+          <span className="marquee-item">⚡ FAST SHIPPING</span>
+          <span className="marquee-item">★ PREMIUM QUALITY</span>
+          <span className="marquee-item">⚡ LIMITED EDITION DROP</span>
+          <span className="marquee-item">★ NEW SEASON</span>
+          <span className="marquee-item">⚡ FAST SHIPPING</span>
+          <span className="marquee-item">★ PREMIUM QUALITY</span>
         </div>
       </div>
 

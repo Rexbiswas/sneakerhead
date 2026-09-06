@@ -15,6 +15,7 @@
 .home-content {
     flex: 1;
     z-index: 2;
+    min-width: 0;
 }
 
 .home-content h2 {
@@ -139,39 +140,6 @@
     color: var(--btn-bg-dark);
 }
 
-/* Scroll Indicator */
-.scroll-indicator {
-    position: absolute;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #555;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    z-index: 5;
-}
-
-.scroll-mouse {
-    width: 20px;
-    height: 35px;
-    border: 2px solid #555;
-    border-radius: 15px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: center;
-    padding-top: 5px;
-}
-
-.scroll-wheel {
-    width: 4px;
-    height: 8px;
-    background-color: #555;
-    border-radius: 2px;
-}
 
 /* Right Content - Image */
 .home-image-container {
@@ -305,25 +273,32 @@
 }
 
 /* 2. Tilted Infinite Marquee */
+@keyframes scrollMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
 .marquee-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     overflow: hidden;
     background: var(--btn-bg-dark);
     color: var(--gold-bright);
     padding: 12px 0;
     transform: rotate(-3deg);
-    z-index: 10;
+    z-index: 30;
     border-top: 2px solid var(--gold-bright);
     border-bottom: 2px solid var(--gold-bright);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    margin-top: -30px;
+    margin-bottom: -30px;
 }
 
 .marquee-content {
     display: flex;
     white-space: nowrap;
+    width: max-content;
+    animation: scrollMarquee 20s linear infinite;
 }
 
 .marquee-item {
