@@ -46,23 +46,5 @@ export const useHomeAnimations = (containerRef) => {
             ease: "sine.inOut",
             delay: 1
         });
-
-
-
-
-        gsap.fromTo(".holo-price",
-            { y: 0, rotation: 5, scale: 1 },
-            {
-                y: -15,
-                rotation: 8,
-                scale: 1.02,
-                duration: 2.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                transformOrigin: "center"
-            }
-        );
-
     }, { scope: containerRef });
 };

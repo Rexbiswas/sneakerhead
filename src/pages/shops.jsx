@@ -3,12 +3,18 @@ import React, { useState } from 'react'
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/navbar'
 import Sneaker3D from '../components/Sneaker3D'
+import QuickViewModal from '../components/QuickViewModal'
 
-const Shop = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity, addToCart }) => {
+const Shop = (props) => {
+  const { cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity, addToCart, wishlistItems = [], toggleWishlist } = props;
   const [rating, setRating] = useState(4);
   const [selectedColor, setSelectedColor] = useState('yellow');
   const [selectedSize, setSelectedSize] = useState(40);
   const [addedItems, setAddedItems] = useState({});
+
+  // Quick View State
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   const featuredProducts = [
     {
@@ -64,6 +70,31 @@ const Shop = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart,
 
   const filters = ['All', 'Running', 'Lifestyle', 'Basketball'];
 
+  const handleOpenQuickView = (product) => {
+    setQuickViewProduct(product);
+    setIsQuickViewOpen(true);
+  };
+
+  const handleCloseQuickView = () => {
+    setIsQuickViewOpen(false);
+  };
+
+  const handleNextQuickView = () => {
+    if (!quickViewProduct) return;
+    const list = filteredProducts.length > 0 ? filteredProducts : productsData;
+    const currentIndex = list.findIndex(p => p.id === quickViewProduct.id);
+    const nextIndex = (currentIndex + 1) % list.length;
+    setQuickViewProduct(list[nextIndex]);
+  };
+
+  const handlePrevQuickView = () => {
+    if (!quickViewProduct) return;
+    const list = filteredProducts.length > 0 ? filteredProducts : productsData;
+    const currentIndex = list.findIndex(p => p.id === quickViewProduct.id);
+    const prevIndex = (currentIndex - 1 + list.length) % list.length;
+    setQuickViewProduct(list[prevIndex]);
+  };
+
   // 3D Tilt Effect Logic
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -85,14 +116,7 @@ const Shop = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart,
 
   return (
     <>
-      <Navbar 
-        cartCount={cartCount} 
-        isCartOpen={isCartOpen}
-        setIsCartOpen={setIsCartOpen}
-        cartItems={cartItems}
-        removeFromCart={removeFromCart}
-        updateQuantity={updateQuantity}
-      />
+      <Navbar {...props} />
       <main>
         {/* shops */}
         <motion.div
@@ -515,12 +539,38 @@ const Shop = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart,
                 transition={{ type: "spring", stiffness: 100, damping: 12 }}
                 whileHover={{ scale: 1.05, rotateY: 5, zIndex: 10 }}
               >
-                <div className='cards-products'>
+                {/* Sleek Floating Quick View Trigger Badge on hover */}
+                <button
+                  className="card-quickview-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenQuickView(item);
+                  }}
+                  title="Quick View"
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  Quick View
+                </button>
+
+                <div 
+                  className='cards-products' 
+                  onClick={() => handleOpenQuickView(item)}
+                  title="Click for Quick View"
+                >
                   <div className="card-circle"></div>
                   <img src={item.img} alt={item.name} className="card-img" />
                 </div>
                 <div className='cards-info'>
-                  <h3>{item.name}</h3>
+                  <h3 
+                    onClick={() => handleOpenQuickView(item)}
+                    style={{ cursor: 'pointer' }}
+                    title="Click for Quick View"
+                  >
+                    {item.name}
+                  </h3>
                   <div className="card-footer">
                     <span className="card-price">{item.price}</span>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -571,6 +621,18 @@ const Shop = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart,
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* Next-Level Quick View Modal */}
+        <QuickViewModal
+          isOpen={isQuickViewOpen}
+          onClose={handleCloseQuickView}
+          product={quickViewProduct}
+          onNext={handleNextQuickView}
+          onPrev={handlePrevQuickView}
+          addToCart={addToCart}
+          wishlistItems={wishlistItems}
+          toggleWishlist={toggleWishlist}
+        />
       </main>
     </>
   )

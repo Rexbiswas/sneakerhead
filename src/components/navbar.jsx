@@ -1,93 +1,300 @@
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
 import CartSidebar from './CartSidebar'
+import WishlistSidebar from './WishlistSidebar'
+import NavDrawer from './NavDrawer'
 
-function Navbar({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+function Navbar({
+  cartCount,
+  isCartOpen,
+  setIsCartOpen,
+  cartItems = [],
+  removeFromCart,
+  updateQuantity,
+  wishlistCount = 0,
+  isWishlistOpen = false,
+  setIsWishlistOpen,
+  wishlistItems = [],
+  removeFromWishlist,
+  moveToCart,
+  moveAllToCart,
+  clearWishlist
+}) {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const location = useLocation();
 
   const openAuth = (mode) => {
     setAuthMode(mode);
     setShowAuth(true);
-    setIsMenuOpen(false);
+    setIsDrawerOpen(false);
   };
+
+  const calculateTotal = () => {
+    if (!cartItems || cartItems.length === 0) return '0.00';
+    return cartItems.reduce((total, item) => {
+      const price = parseFloat(String(item.price).replace(/[^0-9.]/g, '')) || 0;
+      return total + (price * (item.quantity || 1));
+    }, 0).toFixed(2);
+  };
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Shop', path: '/shop' },
+    { name: 'Blogs', path: '/blogs' }
+  ];
 
   return (
     <>
-      <nav>
-        <div className='navbar'>
-          <div className='logo'>
-            <div className='logo-container'>
-              <div className='logo-image-container'>
-                <div className='circle'></div>
-                <div className='circle'></div>
+      <header className="navbar-wrapper">
+        <div className="navbar">
+          {/* Logo Section */}
+          <Link to="/" className="logo" aria-label="SneakerHub Home">
+            <div className="logo-container">
+              <div className="logo-image-container">
+                <div className="circle"></div>
+                <div className="circle"></div>
               </div>
-              <div className='logo-image-container'>
-                <div className='circle'></div>
-                <div className='circle'></div>
+              <div className="logo-image-container">
+                <div className="circle"></div>
+                <div className="circle"></div>
               </div>
             </div>
-            <div className='logo-text'>
+            <div className="logo-text">
               <h1>SneakerHub</h1>
+              <span className="logo-badge">PRO</span>
             </div>
-          </div>
+          </Link>
 
-          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            <ul>
-              <li><NavLink to="/" onClick={() => setIsMenuOpen(false)}>Home</NavLink></li>
-              <li><NavLink to="/shop" onClick={() => setIsMenuOpen(false)}>Shop</NavLink></li>
-              <li><NavLink to="/blogs" onClick={() => setIsMenuOpen(false)}>Blogs</NavLink></li>
+          {/* Desktop Center Nav Pill Bar */}
+          <nav className="nav-center-pill" aria-label="Main Navigation">
+            <ul className="nav-pill-list">
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <li key={link.path} className="nav-pill-item">
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) => `nav-pill-link ${isActive ? 'active' : ''}`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeNavCapsule"
+                          className="nav-active-bg"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                      <span className="nav-pill-text">{link.name}</span>
+                    </NavLink>
+                  </li>
+                );
+              })}
+
 
             </ul>
-          </div>
-          <div className='nav-component'>
-            <div className='nav-component-pay'>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  openAuth('login');
-                }}
-                style={{
-                  color: '#333',
-                  fontWeight: '700',
-                  fontSize: '14px',
-                  textDecoration: 'none',
-                  marginRight: '10px',
-                  cursor: 'pointer'
-                }}
-              >
-                Login
-              </a>
-              <span>&#x24;</span>
-              &nbsp;
-              <span>0.00</span>
+          </nav>
+
+          {/* Right Action Component */}
+          <div className="nav-component">
+            {/* User Login Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => openAuth('login')}
+              className="nav-login-btn"
+              aria-label="Account Login"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>Login</span>
+            </motion.button>
+
+            {/* Price Pill */}
+            <div className="nav-component-pay" onClick={() => setIsCartOpen(true)} title="View cart total">
+              <span className="currency-symbol">&#x24;</span>
+              <span className="currency-amount">{calculateTotal()}</span>
             </div>
-            <div className='nav-component-cart' onClick={(e) => { e.stopPropagation(); setIsCartOpen(true); }} style={{ cursor: 'pointer' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={20} width={20} style={{ pointerEvents: 'none' }}>
+
+            {/* Wishlist Button */}
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              className={`nav-component-wishlist ${(wishlistCount || 0) > 0 ? 'has-items' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (setIsWishlistOpen) setIsWishlistOpen(true);
+              }}
+              aria-label={`Wishlist with ${wishlistCount || 0} items`}
+              title="View Wishlist"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill={(wishlistCount || 0) > 0 ? '#ff4b4b' : 'none'} stroke={(wishlistCount || 0) > 0 ? '#ff4b4b' : 'currentColor'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+              <AnimatePresence mode="wait">
+                {(wishlistCount || 0) > 0 && (
+                  <motion.span
+                    key={wishlistCount}
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.5, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                    className="wishlist-badge-count"
+                  >
+                    {wishlistCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+
+            {/* Cart Button */}
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              className="nav-component-cart"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsCartOpen(true);
+              }}
+              aria-label={`Shopping cart with ${cartCount || 0} items`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={19} width={19}>
                 <path d="M9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6H9ZM7 6H4C3.44772 6 3 6.44772 3 7V21C3 21.5523 3.44772 22 4 22H20C20.5523 22 21 21.5523 21 21V7C21 6.44772 20.5523 6 20 6H17C17 3.23858 14.7614 1 12 1C9.23858 1 7 3.23858 7 6ZM9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10H17C17 12.7614 14.7614 15 12 15C9.23858 15 7 12.7614 7 10H9Z"></path>
               </svg>
-              <span style={{ pointerEvents: 'none' }}>{cartCount || 0}</span>
-            </div>
-            <div className='menu-icon' onClick={toggleMenu}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={30} width={30}>
-                {isMenuOpen ? (
-                  <path d="M19.07 4.93L17.66 3.52L12 9.17L6.34 3.52L4.93 4.93L10.59 10.59L4.93 16.24L6.34 17.66L12 12L17.66 17.66L19.07 16.24L13.41 10.59L19.07 4.93Z" />
-                ) : (
-                  <path d="M3 6H21V8H3V6ZM3 11H21V13H3V11ZM3 16H21V18H3V16Z" />
-                )}
-              </svg>
-            </div>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={cartCount || 0}
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.5, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                  className="cart-badge-count"
+                >
+                  {cartCount || 0}
+                </motion.span>
+              </AnimatePresence>
+            </motion.button>
+
+            {/* Menu Drawer Toggle Button (Hamburger / Grid) */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`menu-drawer-toggle ${isDrawerOpen ? 'is-open' : ''}`}
+              onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+              aria-label="Toggle link drawer menu"
+              title="Open Navigation Drawer"
+            >
+              <span className="bar bar-1"></span>
+              <span className="bar bar-2"></span>
+              <span className="bar bar-3"></span>
+            </motion.button>
           </div>
         </div>
+      </header>
+
+      {/* Mobile Bottom Navigation Bar (Visible in Mobile View) */}
+      <nav className="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+        <NavLink
+          to="/"
+          className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
+        >
+          <div className="mobile-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <span>Home</span>
+        </NavLink>
+
+        <NavLink
+          to="/shop"
+          className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
+        >
+          <div className="mobile-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+          </div>
+          <span>Shop</span>
+        </NavLink>
+
+        <NavLink
+          to="/blogs"
+          className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
+        >
+          <div className="mobile-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <span>Blogs</span>
+        </NavLink>
+
+        <button
+          type="button"
+          onClick={() => setIsWishlistOpen && setIsWishlistOpen(true)}
+          className={`mobile-nav-item mobile-wishlist-btn ${isWishlistOpen ? 'active' : ''}`}
+          aria-label="Open Wishlist"
+        >
+          <div className="mobile-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill={(wishlistCount || 0) > 0 ? '#ff4b4b' : 'none'} stroke={(wishlistCount || 0) > 0 ? '#ff4b4b' : 'currentColor'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            {(wishlistCount || 0) > 0 && (
+              <span className="mobile-wishlist-badge">{wishlistCount}</span>
+            )}
+          </div>
+          <span>Wishlist</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setIsCartOpen(true)}
+          className="mobile-nav-item mobile-cart-btn"
+          aria-label="Open Cart"
+        >
+          <div className="mobile-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6H9ZM7 6H4C3.44772 6 3 6.44772 3 7V21C3 21.5523 3.44772 22 4 22H20C20.5523 22 21 21.5523 21 21V7C21 6.44772 20.5523 6 20 6H17C17 3.23858 14.7614 1 12 1C9.23858 1 7 3.23858 7 6ZM9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10H17C17 12.7614 14.7614 15 12 15C9.23858 15 7 12.7614 7 10H9Z"></path>
+            </svg>
+            {(cartCount || 0) > 0 && (
+              <span className="mobile-cart-badge">{cartCount}</span>
+            )}
+          </div>
+          <span>Cart</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setIsDrawerOpen(true)}
+          className={`mobile-nav-item mobile-menu-btn ${isDrawerOpen ? 'active' : ''}`}
+          aria-label="Open Directory Menu"
+        >
+          <div className="mobile-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </div>
+          <span>Menu</span>
+        </button>
       </nav>
+
+      {/* Next-Level Link Drawer */}
+      <NavDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        openAuth={openAuth}
+      />
 
       <AnimatePresence>
         {showAuth && (
@@ -101,6 +308,16 @@ function Navbar({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCar
         cartItems={cartItems}
         removeFromCart={removeFromCart}
         updateQuantity={updateQuantity}
+      />
+
+      <WishlistSidebar
+        isWishlistOpen={isWishlistOpen}
+        setIsWishlistOpen={setIsWishlistOpen}
+        wishlistItems={wishlistItems}
+        removeFromWishlist={removeFromWishlist}
+        moveToCart={moveToCart}
+        moveAllToCart={moveAllToCart}
+        clearWishlist={clearWishlist}
       />
     </>
   )

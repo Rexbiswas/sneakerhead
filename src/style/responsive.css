@@ -1,65 +1,133 @@
 /* Navbar Responsive */
-@media (max-width: 1024px) {
-    .menu-icon {
-        display: flex;
+@media (max-width: 960px) {
+    body {
+        padding-bottom: 84px !important;
     }
 
-    .nav-links {
-        display: none;
-        position: absolute;
-        top: 70px;
-        right: 20px;
-        width: 250px;
+    /* Hide top floating navbar in mobile view */
+    .navbar-wrapper {
+        display: none !important;
+    }
+
+    /* Mobile Bottom Navigation Bar */
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 28px);
+        max-width: 440px;
+        height: 62px;
+        background: rgba(20, 19, 24, 0.92);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 9999px;
+        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9900;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 8px;
+    }
+
+    .mobile-nav-item {
+        display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 20px;
-        z-index: 1000;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(100px);
-        -webkit-backdrop-filter: blur(100px);
-        box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.2);
-        border-radius: 15px;
+        justify-content: center;
+        gap: 3px;
+        background: none;
+        border: none;
+        text-decoration: none;
+        color: #a1a1aa;
+        font-family: 'Outfit', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 16px;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .nav-links.active {
+    .mobile-nav-item:hover,
+    .mobile-nav-item.active {
+        color: var(--primary-background-color);
+        transform: translateY(-2px);
+    }
+
+    .mobile-nav-item.active .mobile-nav-icon-wrap {
+        color: var(--primary-background-color);
+        background: rgba(249, 194, 22, 0.16);
+        border-radius: 12px;
+    }
+
+    .mobile-nav-icon-wrap {
+        position: relative;
         display: flex;
-        animation: slideDown 0.3s ease-out forwards;
+        align-items: center;
+        justify-content: center;
+        height: 24px;
+        padding: 2px 8px;
+        transition: all 0.2s ease;
     }
 
-    .nav-links ul {
+    .mobile-cart-badge {
+        position: absolute;
+        top: -5px;
+        right: -6px;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--primary-background-color);
+        color: #000000;
+        font-size: 9px;
+        font-weight: 900;
         display: flex;
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
-        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3px;
+        border: 1.5px solid #131217;
     }
 
-    .nav-links ul li {
-        display: block;
-        width: 100%;
+    .mobile-wishlist-badge {
+        position: absolute;
+        top: -5px;
+        right: -6px;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #ff4b4b;
+        color: #ffffff;
+        font-size: 9px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3px;
+        border: 1.5px solid #131217;
+    }
+}
+
+@media (max-width: 640px) {
+    .nav-login-btn span {
+        display: none;
     }
 
-    .nav-links ul li a {
-        display: block;
-        padding: 10px;
+    .nav-login-btn {
+        padding: 7px 10px;
     }
 
     .logo-text h1 {
-        font-size: 22px;
+        font-size: 18px;
     }
 
-    .nav-component-pay {
-        margin-right: 8px;
+    .logo-badge {
+        display: none;
     }
 
-    .nav-component-pay a {
-        font-size: 13px !important;
-        margin-right: 5px !important;
-    }
-
-    .nav-component-pay span {
-        font-size: 13px;
+    .link-drawer-panel {
+        width: 100vw;
     }
 }
 

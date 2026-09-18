@@ -43,24 +43,70 @@ function App() {
     };
 
     // Calculate total count for the badge
-    const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const [wishlistItems, setWishlistItems] = useState([
+        { id: 1, name: "Air Max 97", price: "$180", img: "sneaker_1.png", category: "Running", wishId: 1 }
+    ]);
+    const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
-    const cartProps = {
+    const toggleWishlist = (product) => {
+        setWishlistItems(prevItems => {
+            const exists = prevItems.some(item => item.id === product.id);
+            if (exists) {
+                return prevItems.filter(item => item.id !== product.id);
+            } else {
+                return [...prevItems, { ...product, wishId: Date.now() + Math.random() }];
+            }
+        });
+    };
+
+    const removeFromWishlist = (productId) => {
+        setWishlistItems(prevItems => prevItems.filter(item => item.id !== productId));
+    };
+
+    const moveToCart = (product) => {
+        addToCart(product);
+        removeFromWishlist(product.id);
+    };
+
+    const moveAllToCart = () => {
+        wishlistItems.forEach(item => addToCart(item));
+        setWishlistItems([]);
+        setIsWishlistOpen(false);
+        setIsCartOpen(true);
+    };
+
+    const clearWishlist = () => {
+        setWishlistItems([]);
+    };
+
+    const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const wishlistCount = wishlistItems.length;
+
+    const sharedProps = {
         cartItems,
         cartCount,
         isCartOpen,
         setIsCartOpen,
         addToCart,
         removeFromCart,
-        updateQuantity
+        updateQuantity,
+        wishlistItems,
+        wishlistCount,
+        isWishlistOpen,
+        setIsWishlistOpen,
+        toggleWishlist,
+        removeFromWishlist,
+        moveToCart,
+        moveAllToCart,
+        clearWishlist
     };
 
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home {...cartProps} />} />
-                <Route path="/shop" element={<Shop {...cartProps} />} />
-                <Route path="/blogs" element={<Blogs {...cartProps} />} />
+                <Route path="/" element={<Home {...sharedProps} />} />
+                <Route path="/shop" element={<Shop {...sharedProps} />} />
+                <Route path="/blogs" element={<Blogs {...sharedProps} />} />
             </Routes>
         </Router>
     );

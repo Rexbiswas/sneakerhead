@@ -11,7 +11,8 @@ const slides = [
   { id: 3, img: 'sneaker_1.png', filter: 'hue-rotate(16deg) saturate(1.2)', title: 'Red Fury', price: '$169.00' }
 ];
 
-const Home = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity }) => {
+const Home = (props) => {
+  const { cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity } = props;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -54,14 +55,7 @@ const Home = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart,
 
   return (
     <>
-      <Navbar 
-        cartCount={cartCount} 
-        isCartOpen={isCartOpen}
-        setIsCartOpen={setIsCartOpen}
-        cartItems={cartItems}
-        removeFromCart={removeFromCart}
-        updateQuantity={updateQuantity}
-      />
+      <Navbar {...props} />
       <div className="home-container" ref={containerRef} onMouseMove={(e) => {
         const { innerWidth, innerHeight } = window;
         const x = (e.clientX / innerWidth - 0.5) * 2;
@@ -156,11 +150,7 @@ const Home = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart,
             <span>Air Cushion</span>
           </div>
 
-          {/* Holographic Price Tag */}
-          <div className="holo-price" style={{ transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`, transformOrigin: 'center' }}>
-            <span className="label">Start from</span>
-            <span className="currency">{slides[currentSlide].price}</span>
-          </div>
+
 
         </div>
       </div>

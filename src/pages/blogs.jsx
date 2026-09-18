@@ -49,7 +49,7 @@ const blogsData = [
   },
 ];
 
-const Blogs = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity }) => {
+const Blogs = (props) => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -61,14 +61,7 @@ const Blogs = ({ cartCount, isCartOpen, setIsCartOpen, cartItems, removeFromCart
 
   return (
     <div style={{ background: "#f8f9fa", minHeight: "100vh", position: "relative", overflow: "hidden" }} ref={containerRef}>
-      <Navbar 
-        cartCount={cartCount} 
-        isCartOpen={isCartOpen}
-        setIsCartOpen={setIsCartOpen}
-        cartItems={cartItems}
-        removeFromCart={removeFromCart}
-        updateQuantity={updateQuantity}
-      />
+      <Navbar {...props} />
 
       {/* Dynamic Background Elements */}
       <motion.div
