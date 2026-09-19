@@ -17,7 +17,7 @@
         left: 50%;
         transform: translateX(-50%);
         width: calc(100% - 28px);
-        max-width: 440px;
+        max-width: 290px;
         height: 62px;
         background: rgba(20, 19, 24, 0.92);
         backdrop-filter: blur(24px) saturate(180%);
@@ -28,7 +28,7 @@
         z-index: 9900;
         justify-content: space-around;
         align-items: center;
-        padding: 0 8px;
+        padding: 0 12px;
     }
 
     .mobile-nav-item {
@@ -527,23 +527,43 @@
     }
 
     .social-connect {
-        position: relative !important;
-        top: auto !important;
-        right: auto !important;
-        margin: 0 auto 30px auto !important;
-        /* Spacing below search */
-        justify-content: center !important;
-        width: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-end !important;
-        padding-right: 30px !important;
+        display: none !important;
     }
 
-    .social-icons {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 30px !important;
+    /* Responsive Filter Bar for Mobile */
+    .shop-filter-wrapper {
+        margin-bottom: 25px !important;
+        padding: 0 8px !important;
+        width: 100% !important;
+    }
+
+    .shop-filter-bar {
+        max-width: 100% !important;
+        padding: 4px 6px !important;
+        gap: 4px !important;
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+        -webkit-overflow-scrolling: touch !important;
+        border-radius: 9999px !important;
+    }
+
+    .shop-filter-bar::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .shop-filter-label {
+        font-size: 10px !important;
+        padding: 0 8px 0 6px !important;
+        letter-spacing: 0.8px !important;
+    }
+
+    .shop-filter-pills {
+        gap: 4px !important;
+    }
+
+    .shop-filter-btn {
+        padding: 7px 14px !important;
+        font-size: 12px !important;
     }
 
     /* Cards Grid Mobile */

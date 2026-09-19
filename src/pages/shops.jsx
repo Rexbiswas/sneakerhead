@@ -446,79 +446,35 @@ const Shop = (props) => {
         >
 
           {/* -- Dynamic Filter UI -- */}
-          <div style={{
-            gridColumn: '1 / -1',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '60px',
-            width: '100%',
-          }}>
+          <div className="shop-filter-wrapper">
             <motion.div
-              style={{
-                display: 'flex',
-                gap: '10px',
-                background: 'rgba(0,0,0,0.7)',
-                backdropFilter: 'blur(15px)',
-                padding: '8px',
-                borderRadius: '60px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-                position: 'relative'
-              }}
+              className="shop-filter-bar"
               initial={{ y: -20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <span style={{
-                color: '#f9c216',
-                fontWeight: '900',
-                fontSize: '12px',
-                letterSpacing: '1px',
-                padding: '0 20px',
-                borderRight: '1px solid rgba(255,255,255,0.1)',
-                marginRight: '5px',
-                alignSelf: 'center',
-                textTransform: 'uppercase'
-              }}>
+              <span className="shop-filter-label">
                 Filter
               </span>
 
-              {filters.map(filter => (
-                <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                  style={{
-                    position: 'relative',
-                    padding: '10px 25px',
-                    borderRadius: '40px',
-                    border: 'none',
-                    background: 'transparent',
-                    color: activeFilter === filter ? '#000' : '#888',
-                    fontWeight: '700',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    transition: 'color 0.3s',
-                    overflow: 'hidden',
-                    zIndex: 1
-                  }}
-                >
-                  {activeFilter === filter && (
-                    <motion.div
-                      layoutId="filter-pill"
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: '#f9c216',
-                        borderRadius: '40px',
-                        zIndex: -1
-                      }}
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  {filter}
-                </button>
-              ))}
+              <div className="shop-filter-pills">
+                {filters.map(filter => (
+                  <button
+                    key={filter}
+                    onClick={() => setActiveFilter(filter)}
+                    className={`shop-filter-btn ${activeFilter === filter ? 'is-active' : ''}`}
+                  >
+                    {activeFilter === filter && (
+                      <motion.div
+                        layoutId="filter-pill"
+                        className="shop-filter-active-pill"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    {filter}
+                  </button>
+                ))}
+              </div>
             </motion.div>
           </div>
 

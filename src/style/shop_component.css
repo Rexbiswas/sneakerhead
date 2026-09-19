@@ -580,9 +580,96 @@
     }
 
     .social-connect {
-        flex-direction: column;
-        gap: 10px;
+        display: none !important;
     }
+}
+
+/* --- Responsive Shop Filter Bar --- */
+.shop-filter-wrapper {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.shop-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(18, 17, 23, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 6px 10px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    max-width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.shop-filter-label {
+    color: #f9c216;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    padding: 0 14px 0 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.shop-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+}
+
+.shop-filter-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.shop-filter-btn {
+    position: relative;
+    padding: 9px 20px;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    color: #8e8e93;
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.shop-filter-btn:hover {
+    color: #ffffff;
+}
+
+.shop-filter-btn.is-active {
+    color: #000000;
+}
+
+.shop-filter-active-pill {
+    position: absolute;
+    inset: 0;
+    background: #f9c216;
+    border-radius: 9999px;
+    z-index: -1;
+    box-shadow: 0 4px 15px rgba(249, 194, 22, 0.35);
 }
 
 /* --- Dynamic Glass Cards --- */

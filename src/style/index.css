@@ -574,35 +574,11 @@ body::selection{
 .drawer-section-label {
     display: block;
     font-size: 11px;
-    font-weight: 800;
-    color: #71717a;
-    letter-spacing: 1.2px;
-    margin-bottom: 12px;
-}
-
-/* Quick Categories */
-.drawer-categories-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.category-pill-btn {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 9999px;
-    padding: 7px 14px;
-    font-size: 12px;
     font-weight: 600;
-    color: #e4e4e7;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.category-pill-btn:hover {
-    background: var(--primary-background-color);
-    color: #18181b;
-    border-color: var(--primary-background-color);
+    color: #71717a;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
 }
 
 /* Nav Links in Drawer */
@@ -616,220 +592,124 @@ body::selection{
 }
 
 .drawer-link-card {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 14px 16px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.03);
+    gap: 14px;
+    padding: 13px 16px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.025);
     border: 1px solid rgba(255, 255, 255, 0.06);
     text-decoration: none;
     color: #ffffff;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
 }
 
-.drawer-link-card:hover,
+.drawer-link-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateX(3px);
+}
+
 .drawer-link-card.active-link {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(249, 194, 22, 0.4);
-    transform: translateX(4px);
+    background: linear-gradient(90deg, rgba(249, 194, 22, 0.08) 0%, rgba(255, 255, 255, 0.025) 100%);
+    border-color: rgba(249, 194, 22, 0.32);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 2px 0 0 0 var(--primary-background-color);
 }
 
 .drawer-link-number {
-    font-family: monospace;
-    font-size: 12px;
-    font-weight: 800;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #71717a;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.drawer-link-card:hover .drawer-link-number {
+    color: #e4e4e7;
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.drawer-link-card.active-link .drawer-link-number {
     color: var(--primary-background-color);
     background: rgba(249, 194, 22, 0.12);
-    padding: 4px 8px;
-    border-radius: 8px;
+    border-color: rgba(249, 194, 22, 0.28);
+    font-weight: 700;
 }
 
 .drawer-link-text {
     flex: 1;
-}
-
-.drawer-link-title-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    min-width: 0;
 }
 
 .drawer-link-title {
-    font-size: 16px;
-    font-weight: 700;
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #f4f4f5;
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
+}
+
+.drawer-link-card:hover .drawer-link-title,
+.drawer-link-card.active-link .drawer-link-title {
     color: #ffffff;
-    letter-spacing: -0.2px;
-}
-
-.drawer-item-badge {
-    font-size: 9px;
-    font-weight: 800;
-    padding: 2px 6px;
-    border-radius: 4px;
-    text-transform: uppercase;
-}
-
-.drawer-item-badge.new {
-    background: #10b981;
-    color: #000000;
-}
-
-.drawer-item-badge.popular {
-    background: var(--primary-background-color);
-    color: #000000;
 }
 
 .drawer-link-desc {
     font-size: 12px;
-    color: #a1a1aa;
+    color: #82828f;
     display: block;
     margin-top: 2px;
+    line-height: 1.4;
+    font-weight: 400;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.drawer-link-card:hover .drawer-link-desc {
+    color: #a1a1aa;
 }
 
 .drawer-link-arrow {
-    color: #71717a;
-    transition: all 0.2s ease;
-}
-
-.drawer-link-card:hover .drawer-link-arrow {
-    color: var(--primary-background-color);
-    transform: translateX(3px);
-}
-
-/* Spotlight Sneaker Card */
-.drawer-spotlight-card {
-    position: relative;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 16px;
-    overflow: hidden;
-}
-
-.spotlight-tag {
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: var(--primary-background-color);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.spotlight-content {
-    display: flex;
-    gap: 14px;
-    align-items: center;
-}
-
-.spotlight-image-container {
-    position: relative;
-    width: 90px;
-    height: 80px;
-    background: rgba(0, 0, 0, 0.35);
-    border-radius: 12px;
+    color: #52525b;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     flex-shrink: 0;
 }
 
-.spotlight-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transform: rotate(-15deg);
-    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
-}
-
-.spotlight-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle, rgba(249, 194, 22, 0.25) 0%, transparent 70%);
-    border-radius: 12px;
-}
-
-.spotlight-details {
-    flex: 1;
-}
-
-.spotlight-details h4 {
-    font-size: 14px;
-    font-weight: 700;
-    margin: 0 0 4px 0;
+.drawer-link-card:hover .drawer-link-arrow {
     color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.14);
+    transform: translateX(2px);
 }
 
-.spotlight-price {
-    font-size: 14px;
-    font-weight: 800;
+.drawer-link-card.active-link .drawer-link-arrow {
     color: var(--primary-background-color);
-    margin: 0 0 4px 0;
-}
-
-.spotlight-old-price {
-    font-size: 12px;
-    color: #71717a;
-    text-decoration: line-through;
-    margin-left: 6px;
-    font-weight: 500;
-}
-
-.spotlight-stars {
-    font-size: 11px;
-    color: #facc15;
-    margin-bottom: 8px;
-}
-
-.spotlight-stars .reviews {
-    color: #a1a1aa;
-    font-weight: 500;
-    font-size: 10px;
-    margin-left: 4px;
-}
-
-.spotlight-cta {
-    background: var(--primary-background-color);
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 11px;
-    font-weight: 800;
-    color: #000000;
-    cursor: pointer;
-    width: 100%;
-    transition: all 0.2s ease;
-}
-
-/* Express Perks Banner */
-.drawer-perk-banner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 14px;
-    background: rgba(249, 194, 22, 0.08);
-    border: 1px dashed rgba(249, 194, 22, 0.3);
-}
-
-.perk-icon {
-    font-size: 18px;
-}
-
-.perk-info strong {
-    display: block;
-    font-size: 12px;
-    color: var(--primary-background-color);
-    font-weight: 700;
-}
-
-.perk-info span {
-    display: block;
-    font-size: 10px;
-    color: #a1a1aa;
+    background: rgba(249, 194, 22, 0.12);
+    border-color: rgba(249, 194, 22, 0.28);
 }
 
 /* Drawer Footer */
@@ -890,24 +770,23 @@ body::selection{
 }
 
 .social-chip {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #a1a1aa;
-    font-size: 11px;
-    font-weight: 800;
+    color: #8e8e93;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .social-chip:hover {
-    background: var(--primary-background-color);
-    color: #000000;
-    border-color: var(--primary-background-color);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }

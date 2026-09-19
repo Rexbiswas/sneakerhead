@@ -211,50 +211,6 @@ function Navbar({
           <span>Home</span>
         </NavLink>
 
-        <NavLink
-          to="/shop"
-          className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
-        >
-          <div className="mobile-nav-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
-            </svg>
-          </div>
-          <span>Shop</span>
-        </NavLink>
-
-        <NavLink
-          to="/blogs"
-          className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
-        >
-          <div className="mobile-nav-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-          </div>
-          <span>Blogs</span>
-        </NavLink>
-
-        <button
-          type="button"
-          onClick={() => setIsWishlistOpen && setIsWishlistOpen(true)}
-          className={`mobile-nav-item mobile-wishlist-btn ${isWishlistOpen ? 'active' : ''}`}
-          aria-label="Open Wishlist"
-        >
-          <div className="mobile-nav-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill={(wishlistCount || 0) > 0 ? '#ff4b4b' : 'none'} stroke={(wishlistCount || 0) > 0 ? '#ff4b4b' : 'currentColor'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
-            {(wishlistCount || 0) > 0 && (
-              <span className="mobile-wishlist-badge">{wishlistCount}</span>
-            )}
-          </div>
-          <span>Wishlist</span>
-        </button>
-
         <button
           type="button"
           onClick={() => setIsCartOpen(true)}
