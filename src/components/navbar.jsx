@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion'
 import CartSidebar from './CartSidebar'
 import WishlistSidebar from './WishlistSidebar'
 import NavDrawer from './NavDrawer'
+import { useAuth } from '../context/AuthContext'
 
 function Navbar({
   cartCount,
@@ -25,7 +26,21 @@ function Navbar({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const profileDropdownRef = useRef(null);
+  const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+        setShowProfileDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const openAuth = (mode) => {
     setAuthMode(mode);
@@ -33,13 +48,6 @@ function Navbar({
     setIsDrawerOpen(false);
   };
 
-  const calculateTotal = () => {
-    if (!cartItems || cartItems.length === 0) return '0.00';
-    return cartItems.reduce((total, item) => {
-      const price = parseFloat(String(item.price).replace(/[^0-9.]/g, '')) || 0;
-      return total + (price * (item.quantity || 1));
-    }, 0).toFixed(2);
-  };
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -99,26 +107,92 @@ function Navbar({
 
           {/* Right Action Component */}
           <div className="nav-component">
-            {/* User Login Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => openAuth('login')}
-              className="nav-login-btn"
-              aria-label="Account Login"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              <span>Login</span>
-            </motion.button>
+            {/* User Login / Profile Button */}
+            {!isAuthenticated ? (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => openAuth('login')}
+                className="nav-login-btn"
+                aria-label="Account Login"
+                title="Account / Login"
+              >
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </motion.button>
+            ) : (
+              <div className="user-profile-wrapper" ref={profileDropdownRef}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowProfileDropdown((prev) => !prev)}
+                  className="nav-profile-btn"
+                  aria-label="User Account Profile"
+                  title="Your Profile"
+                >
+                  <div className="nav-profile-avatar">
+                    {user?.username?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                  <span className="nav-profile-name">{user?.username || 'Profile'}</span>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`nav-profile-chevron ${showProfileDropdown ? 'open' : ''}`}
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </motion.button>
 
-            {/* Price Pill */}
-            <div className="nav-component-pay" onClick={() => setIsCartOpen(true)} title="View cart total">
-              <span className="currency-symbol">&#x24;</span>
-              <span className="currency-amount">{calculateTotal()}</span>
-            </div>
+                {/* Profile Dropdown Menu */}
+                <AnimatePresence>
+                  {showProfileDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.18 }}
+                      className="nav-profile-dropdown"
+                    >
+                      <div className="profile-dropdown-header">
+                        <div className="dropdown-avatar">
+                          {user?.username?.charAt(0)?.toUpperCase() || 'U'}
+                        </div>
+                        <div className="dropdown-user-details">
+                          <span className="dropdown-username">{user?.username}</span>
+                          <span className="dropdown-email">{user?.email}</span>
+                          <span className="dropdown-badge">⚡ VIP SNEAKERHEAD</span>
+                        </div>
+                      </div>
+                      <div className="dropdown-divider" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          logout();
+                          setShowProfileDropdown(false);
+                        }}
+                        className="dropdown-logout-btn"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                          <polyline points="16 17 21 12 16 7"></polyline>
+                          <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <span>Log Out</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
 
             {/* Wishlist Button */}
             <motion.button
@@ -188,9 +262,12 @@ function Navbar({
               aria-label="Toggle link drawer menu"
               title="Open Navigation Drawer"
             >
-              <span className="bar bar-1"></span>
-              <span className="bar bar-2"></span>
-              <span className="bar bar-3"></span>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
+                <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
+                <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
+                <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
+              </svg>
             </motion.button>
           </div>
         </div>
@@ -235,10 +312,11 @@ function Navbar({
           aria-label="Open Directory Menu"
         >
           <div className="mobile-nav-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
+              <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
+              <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
+              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
             </svg>
           </div>
           <span>Menu</span>
@@ -281,6 +359,101 @@ function Navbar({
 
 const AuthModal = ({ mode, onClose, setMode }) => {
   const isLogin = mode === 'login';
+  const { login, signup } = useAuth();
+
+  // Login form state
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+
+  // Signup form state
+  const [signupUsername, setSignupUsername] = useState('');
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
+  const [signupConfirmPassword, setSignupConfirmPassword] = useState('');
+
+  // Status & Feedback
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Clear messages when flipping modes
+  const handleSwitchMode = (newMode) => {
+    setErrorMessage('');
+    setSuccessMessage('');
+    setMode(newMode);
+  };
+
+  // Handle Login Submit
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    if (!loginEmail.trim() || !loginPassword) {
+      setErrorMessage('Please enter both email and password.');
+      return;
+    }
+
+    setIsLoading(true);
+    const result = await login(loginEmail.trim(), loginPassword);
+    setIsLoading(false);
+
+    if (!result.success) {
+      setErrorMessage(result.message);
+      return;
+    }
+
+    setSuccessMessage('Welcome back! Logging you in...');
+    setTimeout(() => {
+      onClose();
+    }, 600);
+  };
+
+  // Handle Signup Submit
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    if (!signupUsername.trim() || !signupEmail.trim() || !signupPassword || !signupConfirmPassword) {
+      setErrorMessage('Please fill in all required fields.');
+      return;
+    }
+
+    if (signupPassword.length !== 6) {
+      setErrorMessage('Password must be exactly 6 characters long.');
+      return;
+    }
+
+    if (signupPassword !== signupConfirmPassword) {
+      setErrorMessage('Passwords do not match. Please verify your confirm password.');
+      return;
+    }
+
+    setIsLoading(true);
+    const result = await signup(signupUsername.trim(), signupEmail.trim(), signupPassword);
+    setIsLoading(false);
+
+    if (result.alreadyExists) {
+      // User already exists -> prefill login email and switch to login directly
+      setLoginEmail(signupEmail.trim());
+      setErrorMessage(result.message);
+      setTimeout(() => {
+        setMode('login');
+      }, 1000);
+      return;
+    }
+
+    if (!result.success) {
+      setErrorMessage(result.message);
+      return;
+    }
+
+    setSuccessMessage('Account created successfully! Welcome to SneakerHub.');
+    setTimeout(() => {
+      onClose();
+    }, 600);
+  };
 
   return (
     <motion.div
@@ -316,12 +489,36 @@ const AuthModal = ({ mode, onClose, setMode }) => {
         onClick={(e) => e.stopPropagation()}
         className="auth-card"
         style={{
-          width: '400px',
-          height: '550px',
+          width: '420px',
+          minHeight: '620px',
           position: 'relative',
           transformStyle: 'preserve-3d',
         }}
       >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          aria-label="Close modal"
+          style={{
+            position: 'absolute',
+            top: '18px',
+            right: '18px',
+            zIndex: 10,
+            background: 'rgba(0, 0, 0, 0.08)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '32px',
+            height: '32px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: isLogin ? '#000' : '#fff'
+          }}
+        >
+          ✕
+        </button>
+
         {/* --- FRONT FACE (LOGIN) --- */}
         <div style={{
           position: 'absolute',
@@ -329,35 +526,71 @@ const AuthModal = ({ mode, onClose, setMode }) => {
           height: '100%',
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
-          background: 'rgba(255, 255, 255, 0.9)',
+          background: 'rgba(255, 255, 255, 0.95)',
           borderRadius: '30px',
-          padding: '40px',
+          padding: '36px 40px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          pointerEvents: isLogin ? 'auto' : 'none',
+          zIndex: isLogin ? 2 : 1
         }}>
           <div style={orbStyle}></div>
 
           <h2 style={headingStyle}>Welcome Back.</h2>
 
-          <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative', zIndex: 1 }}>
-            <input type="email" placeholder="Email Address" style={inputStyle} />
-            <input type="password" placeholder="Password" style={inputStyle} />
+          {/* Feedback messages */}
+          {errorMessage && isLogin && (
+            <div style={alertErrorStyle}>
+              {errorMessage}
+            </div>
+          )}
+          {successMessage && isLogin && (
+            <div style={alertSuccessStyle}>
+              {successMessage}
+            </div>
+          )}
+
+          <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative', zIndex: 1 }}>
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              required
+              autoComplete="email"
+              style={inputStyle}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+              style={inputStyle}
+            />
 
             <motion.button
-              whileHover={{ scale: 1.02, backgroundColor: '#f9c216', color: '#000' }}
-              whileTap={{ scale: 0.98 }}
-              style={buttonStyle}
+              type="submit"
+              disabled={isLoading}
+              whileHover={{ scale: isLoading ? 1 : 1.02, backgroundColor: '#f9c216', color: '#000' }}
+              whileTap={{ scale: isLoading ? 1 : 0.98 }}
+              style={{
+                ...buttonStyle,
+                opacity: isLoading ? 0.7 : 1,
+                cursor: isLoading ? 'not-allowed' : 'pointer'
+              }}
             >
-              Log In
+              {isLoading ? 'Signing In...' : 'Log In'}
             </motion.button>
           </form>
 
           <div style={footerStyle}>
             Don't have an account?
-            <button onClick={() => setMode('signup')} style={linkStyle}> Sign Up</button>
+            <button type="button" onClick={() => handleSwitchMode('signup')} style={linkStyle}> Sign Up</button>
           </div>
         </div>
 
@@ -369,38 +602,97 @@ const AuthModal = ({ mode, onClose, setMode }) => {
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
           transform: 'rotateY(180deg)',
-          background: 'rgba(20, 20, 20, 0.95)',
+          background: 'rgba(20, 20, 20, 0.96)',
           backdropFilter: 'blur(20px)',
           borderRadius: '30px',
-          padding: '40px',
+          padding: '36px 40px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
           overflow: 'hidden',
-          color: '#fff'
+          color: '#fff',
+          pointerEvents: !isLogin ? 'auto' : 'none',
+          zIndex: !isLogin ? 2 : 1
         }}>
           <div style={{ ...orbStyle, background: '#4ecdc4', left: '-50px', right: 'auto' }}></div>
 
-          <h2 style={{ ...headingStyle, color: '#f9c216' }}>Join the Hub.</h2>
+          <h2 style={{ ...headingStyle, color: '#f9c216', marginBottom: '16px' }}>Join the Hub.</h2>
 
-          <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative', zIndex: 1 }}>
-            <input type="text" placeholder="Username" style={inputStyle} />
-            <input type="email" placeholder="Email Address" style={inputStyle} />
-            <input type="password" placeholder="Create Password" style={inputStyle} />
+          {/* Feedback messages */}
+          {errorMessage && !isLogin && (
+            <div style={alertErrorDarkStyle}>
+              {errorMessage}
+            </div>
+          )}
+          {successMessage && !isLogin && (
+            <div style={alertSuccessStyle}>
+              {successMessage}
+            </div>
+          )}
+
+          <form onSubmit={handleSignupSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative', zIndex: 1 }}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={signupUsername}
+              onChange={(e) => setSignupUsername(e.target.value)}
+              required
+              autoComplete="username"
+              style={inputStyleDark}
+            />
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={signupEmail}
+              onChange={(e) => setSignupEmail(e.target.value)}
+              required
+              autoComplete="email"
+              style={inputStyleDark}
+            />
+            <input
+              type="password"
+              placeholder="Create Password (6 chars)"
+              value={signupPassword}
+              onChange={(e) => setSignupPassword(e.target.value.slice(0, 6))}
+              required
+              minLength={6}
+              maxLength={6}
+              autoComplete="new-password"
+              style={inputStyleDark}
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password (6 chars)"
+              value={signupConfirmPassword}
+              onChange={(e) => setSignupConfirmPassword(e.target.value.slice(0, 6))}
+              required
+              minLength={6}
+              maxLength={6}
+              autoComplete="new-password"
+              style={inputStyleDark}
+            />
 
             <motion.button
-              whileHover={{ scale: 1.02, backgroundColor: '#fff', color: '#000' }}
-              whileTap={{ scale: 0.98 }}
-              style={{ ...buttonStyle, background: '#f9c216', color: '#333' }}
+              type="submit"
+              disabled={isLoading}
+              whileHover={{ scale: isLoading ? 1 : 1.02, backgroundColor: '#fff', color: '#000' }}
+              whileTap={{ scale: isLoading ? 1 : 0.98 }}
+              style={{
+                ...buttonStyle,
+                background: '#f9c216',
+                color: '#1a1a1a',
+                opacity: isLoading ? 0.7 : 1,
+                cursor: isLoading ? 'not-allowed' : 'pointer'
+              }}
             >
-              Sign Up
+              {isLoading ? 'Creating Account...' : 'Sign Up'}
             </motion.button>
           </form>
 
-          <div style={{ ...footerStyle, color: '#aaa' }}>
+          <div style={{ ...footerStyle, color: '#aaa', marginTop: '16px' }}>
             Already have an account?
-            <button onClick={() => setMode('login')} style={linkStyle}> Log In</button>
+            <button type="button" onClick={() => handleSwitchMode('login')} style={linkStyle}> Log In</button>
           </div>
         </div>
 
@@ -411,20 +703,21 @@ const AuthModal = ({ mode, onClose, setMode }) => {
 
 // Styles
 const buttonStyle = {
-  padding: '15px',
-  borderRadius: '15px',
+  padding: '13px',
+  borderRadius: '13px',
   border: 'none',
   background: '#1a1a1a',
   color: '#fff',
   fontWeight: 'bold',
-  fontSize: '16px',
+  fontSize: '15px',
   cursor: 'pointer',
-  marginTop: '10px'
+  marginTop: '4px',
+  transition: 'all 0.2s ease'
 };
 
 const headingStyle = {
-  marginBottom: '30px',
-  fontSize: '32px',
+  marginBottom: '20px',
+  fontSize: '28px',
   fontWeight: '800',
   color: '#1a1a1a',
   position: 'relative',
@@ -432,7 +725,7 @@ const headingStyle = {
 };
 
 const footerStyle = {
-  marginTop: '30px',
+  marginTop: '18px',
   textAlign: 'center',
   fontSize: '14px',
   color: '#666',
@@ -458,18 +751,73 @@ const orbStyle = {
   background: '#f9c216',
   borderRadius: '50%',
   filter: 'blur(50px)',
-  opacity: 0.6
+  opacity: 0.6,
+  pointerEvents: 'none'
 };
 
 const inputStyle = {
   width: '100%',
-  padding: '15px',
+  padding: '14px 16px',
   borderRadius: '12px',
-  border: '1px solid #ddd',
-  background: '#fff',
-  fontSize: '15px',
+  border: '1px solid #e2e8f0',
+  background: '#f8fafc',
+  color: '#1e293b',
+  fontSize: '14px',
   outline: 'none',
-  transition: '0.3s'
-}
+  transition: '0.2s',
+  boxSizing: 'border-box'
+};
 
-export default Navbar
+const inputStyleDark = {
+  width: '100%',
+  padding: '14px 16px',
+  borderRadius: '12px',
+  border: '1px solid rgba(255, 255, 255, 0.15)',
+  background: 'rgba(255, 255, 255, 0.07)',
+  color: '#ffffff',
+  fontSize: '14px',
+  outline: 'none',
+  transition: '0.2s',
+  boxSizing: 'border-box'
+};
+
+const alertErrorStyle = {
+  padding: '10px 14px',
+  borderRadius: '10px',
+  background: '#fef2f2',
+  border: '1px solid #fecaca',
+  color: '#dc2626',
+  fontSize: '13px',
+  fontWeight: '600',
+  marginBottom: '14px',
+  zIndex: 2,
+  position: 'relative'
+};
+
+const alertErrorDarkStyle = {
+  padding: '10px 14px',
+  borderRadius: '10px',
+  background: 'rgba(239, 68, 68, 0.2)',
+  border: '1px solid rgba(239, 68, 68, 0.4)',
+  color: '#fca5a5',
+  fontSize: '13px',
+  fontWeight: '600',
+  marginBottom: '14px',
+  zIndex: 2,
+  position: 'relative'
+};
+
+const alertSuccessStyle = {
+  padding: '10px 14px',
+  borderRadius: '10px',
+  background: '#f0fdf4',
+  border: '1px solid #bbf7d0',
+  color: '#16a34a',
+  fontSize: '13px',
+  fontWeight: '600',
+  marginBottom: '14px',
+  zIndex: 2,
+  position: 'relative'
+};
+
+export default Navbar;

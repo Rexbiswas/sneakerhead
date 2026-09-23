@@ -6,9 +6,9 @@ import '../style/home.css';
 import { useHomeAnimations } from '../utils/HomeAnimations';
 
 const slides = [
-  { id: 1, img: 'sneaker_1.png', filter: 'hue-rotate(265deg) saturate(0.5) brightness(1.3)', title: 'Future Style', price: '$149.00' },
-  { id: 2, img: 'sneaker_1.png', filter: 'hue-rotate(180deg) brightness(1.1)', title: 'Neon Cyber', price: '$189.00' },
-  { id: 3, img: 'sneaker_1.png', filter: 'hue-rotate(16deg) saturate(1.2)', title: 'Red Fury', price: '$169.00' }
+  { id: 1, img: 'sneaker_1.png', filter: 'hue-rotate(265deg) saturate(0.5) brightness(1.3)', title: 'Future Style', price: '₹12,499' },
+  { id: 2, img: 'sneaker_1.png', filter: 'hue-rotate(180deg) brightness(1.1)', title: 'Neon Cyber', price: '₹15,999' },
+  { id: 3, img: 'sneaker_1.png', filter: 'hue-rotate(16deg) saturate(1.2)', title: 'Red Fury', price: '₹13,999' }
 ];
 
 const Home = (props) => {

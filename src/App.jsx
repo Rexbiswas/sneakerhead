@@ -3,10 +3,29 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import Shop from './pages/shops';
 import Blogs from './pages/blogs';
+import Checkout from './pages/checkout';
 import Footer from './components/footer';
+
 function App() {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(() => {
+        try {
+            const saved = localStorage.getItem('sneakerhead_cart');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed)) {
+                    return parsed.filter(item => item && item.cartId !== 101);
+                }
+            }
+        } catch (e) {}
+        return [];
+    });
     const [isCartOpen, setIsCartOpen] = useState(false);
+
+    React.useEffect(() => {
+        try {
+            localStorage.setItem('sneakerhead_cart', JSON.stringify(cartItems));
+        } catch (e) {}
+    }, [cartItems]);
 
     const addToCart = (product) => {
         setCartItems(prevItems => {
@@ -42,10 +61,12 @@ function App() {
         }));
     };
 
+    const clearCart = () => {
+        setCartItems([]);
+    };
+
     // Calculate total count for the badge
-    const [wishlistItems, setWishlistItems] = useState([
-        { id: 1, name: "Air Max 97", price: "$180", img: "sneaker_1.png", category: "Running", wishId: 1 }
-    ]);
+    const [wishlistItems, setWishlistItems] = useState( []);
     const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
     const toggleWishlist = (product) => {
@@ -90,6 +111,7 @@ function App() {
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
         wishlistItems,
         wishlistCount,
         isWishlistOpen,
@@ -107,6 +129,7 @@ function App() {
                 <Route path="/" element={<Home {...sharedProps} />} />
                 <Route path="/shop" element={<Shop {...sharedProps} />} />
                 <Route path="/blogs" element={<Blogs {...sharedProps} />} />
+                <Route path="/checkout" element={<Checkout {...sharedProps} />} />
             </Routes>
         </Router>
     );

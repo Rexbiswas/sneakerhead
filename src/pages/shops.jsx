@@ -21,21 +21,21 @@ const Shop = (props) => {
       id: 1,
       name: "Nike Air Max 270 to Chuck Taylor",
       desc: "Nike's Air Force 1s were among the most popular sneaker this year",
-      price: "$150",
+      price: "₹12,499",
       img: "sneaker_1.png"
     },
     {
       id: 2,
       name: "Air Jordan 1 High OG",
       desc: "The classic silhouette that started it all, featuring premium materials.",
-      price: "$180",
+      price: "₹14,999",
       img: "sneaker_1.png"
     },
     {
       id: 3,
       name: "Adidas Yeezy Boost 350",
       desc: "Unmatched comfort and style with signature Primeknit uppers.",
-      price: "$220",
+      price: "₹18,499",
       img: "sneaker_1.png"
     }
   ];
@@ -53,15 +53,15 @@ const Shop = (props) => {
   const [activeFilter, setActiveFilter] = useState('All');
 
   const productsData = [
-    { id: 1, name: "Air Max 97", price: "$180", img: "sneaker_1.png", category: "Running" },
-    { id: 2, name: "Force 1 Shadow", price: "$140", img: "sneaker_1.png", category: "Lifestyle" },
-    { id: 3, name: "Zoom Pegasus", price: "$120", img: "sneaker_1.png", category: "Running" },
-    { id: 4, name: "Jordan Retro", price: "$200", img: "sneaker_1.png", category: "Basketball" },
-    { id: 5, name: "Dunk Low", price: "$110", img: "sneaker_1.png", category: "Lifestyle" },
-    { id: 6, name: "Kyrie Flytrap", price: "$130", img: "sneaker_1.png", category: "Basketball" },
-    { id: 7, name: "LeBron Witness", price: "$160", img: "sneaker_1.png", category: "Basketball" },
-    { id: 8, name: "Blazer Mid", price: "$105", img: "sneaker_1.png", category: "Lifestyle" },
-    { id: 9, name: "Air Huarache", price: "$150", img: "sneaker_1.png", category: "Running" },
+    { id: 1, name: "Air Max 97", price: "₹14,999", img: "https://image.goat.com/attachments/product_template_pictures/images/080/567/893/original/1076901_00.png.png", category: "Running" },
+    { id: 2, name: "Force 1 Shadow", price: "₹11,499", img: "https://image.goat.com/attachments/product_template_pictures/images/079/488/914/original/551885_00.png.png", category: "Lifestyle" },
+    { id: 3, name: "Zoom Pegasus", price: "₹9,999", img: "https://image.goat.com/attachments/product_template_pictures/images/081/976/126/original/957346_00.png.png", category: "Running" },
+    { id: 4, name: "Jordan Retro", price: "₹16,499", img: "https://image.goat.com/attachments/product_template_pictures/images/080/963/035/original/920714_00.png.png", category: "Basketball" },
+    { id: 5, name: "Dunk Low", price: "₹8,999", img: "https://image.goat.com/attachments/product_template_pictures/images/080/156/179/original/585882_00.png.png", category: "Lifestyle" },
+    { id: 6, name: "Kyrie Flytrap", price: "₹10,499", img: "https://image.goat.com/attachments/product_template_pictures/images/064/522/417/original/850669_00.png.png", category: "Basketball" },
+    { id: 7, name: "LeBron Witness", price: "₹13,299", img: "https://image.goat.com/attachments/product_template_pictures/images/086/722/049/original/1160404_00.png.png", category: "Basketball" },
+    { id: 8, name: "Blazer Mid", price: "₹8,499", img: "https://image.goat.com/attachments/product_template_pictures/images/099/439/658/original/502784_00.png.png", category: "Lifestyle" },
+    { id: 9, name: "Air Huarache", price: "₹12,499", img: "https://image.goat.com/attachments/product_template_pictures/images/060/102/523/original/804404_00.png.png", category: "Running" },
   ];
 
   const filteredProducts = activeFilter === 'All'

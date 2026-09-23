@@ -17,13 +17,6 @@ const sizeCharts = {
   UK: ['6.5', '7.0', '7.5', '8.0', '8.5', '9.0', '9.5', '10.0', '10.5', '11.0']
 };
 
-const anglePresets = [
-  { id: 'side', label: 'Side', rotate: -15, scale: 1 },
-  { id: 'perspective', label: 'Angle', rotate: -25, scale: 1.05 },
-  { id: 'top', label: 'Top', rotate: 8, scale: 0.95 },
-  { id: 'dynamic', label: 'Dynamic', rotate: 18, scale: 1.08 },
-];
-
 const QuickViewModal = ({
   isOpen,
   onClose,
@@ -39,7 +32,6 @@ const QuickViewModal = ({
   const [unit, setUnit] = useState('US');
   const [selectedSize, setSelectedSize] = useState('9.5');
   const [quantity, setQuantity] = useState(1);
-  const [selectedAngle, setSelectedAngle] = useState(anglePresets[1]);
   const [addedAnimation, setAddedAnimation] = useState(false);
 
   const isWishlisted = product ? wishlistItems.some(item => item.id === product.id) : false;
@@ -100,8 +92,9 @@ const QuickViewModal = ({
     }, 1500);
   };
 
-  const basePrice = parseInt(product.price.replace('$', '')) || 120;
-  const originalPrice = basePrice + 45;
+  const basePrice = parseInt(String(product.price).replace(/[^0-9.]/g, '')) || 9999;
+  const originalPrice = Math.round(basePrice * 1.25);
+  const savings = originalPrice - basePrice;
 
   return (
     <AnimatePresence>
@@ -158,7 +151,7 @@ const QuickViewModal = ({
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
-
+        
           {/* ================= LEFT: VISUALIZER STAGE ================= */}
           <div className="qv-visual-section">
             <div className="qv-badge-bar">
@@ -198,17 +191,19 @@ const QuickViewModal = ({
                   onMouseLeave={handleMouseLeave}
                 >
                   <motion.img
-                    key={`${product.id}-${selectedAngle.id}`}
+                    key={product.id}
                     src={product.img || 'sneaker_1.png'}
                     alt={product.name}
                     className="qv-shoe-image"
                     style={{
-                      transform: `rotate(${selectedAngle.rotate}deg) scale(${selectedAngle.scale})`,
+                      transform: 'rotate(-20deg) scale(1.05)',
+                      objectFit: 'contain',
+                      maxHeight: '270px',
                       filter: `drop-shadow(0 25px 25px rgba(0, 0, 0, 0.45)) ${selectedColor.filter}`,
                       transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                     initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: selectedAngle.scale }}
+                    animate={{ opacity: 1, scale: 1.05 }}
                     transition={{ duration: 0.35 }}
                   />
                 </motion.div>
@@ -225,23 +220,6 @@ const QuickViewModal = ({
                 </div>
               )}
             </div>
-
-            {/* Angle Bar (in 2D mode) */}
-            {viewMode === '2D' ? (
-              <div className="qv-angles-bar">
-                {anglePresets.map((preset) => (
-                  <button
-                    key={preset.id}
-                    className={`qv-angle-pill ${selectedAngle.id === preset.id ? 'active' : ''}`}
-                    onClick={() => setSelectedAngle(preset)}
-                  >
-                    {preset.label}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div style={{ height: '28px' }} />
-            )}
           </div>
 
           {/* ================= RIGHT: CLEAN PRODUCT DETAILS ================= */}
@@ -263,9 +241,9 @@ const QuickViewModal = ({
                 <h2 className="qv-title">{product.name}</h2>
 
                 <div className="qv-price-row">
-                  <span className="qv-price">{product.price}</span>
-                  <span className="qv-original-price">${originalPrice}</span>
-                  <span className="qv-discount-pill">Save $45</span>
+                  <span className="qv-price">₹{basePrice.toLocaleString('en-IN')}</span>
+                  <span className="qv-original-price">₹{originalPrice.toLocaleString('en-IN')}</span>
+                  <span className="qv-discount-pill">Save ₹{savings.toLocaleString('en-IN')}</span>
                 </div>
 
                 {/* Clean Urgency Indicator */}
@@ -393,7 +371,7 @@ const QuickViewModal = ({
                       <circle cx="20" cy="21" r="1"></circle>
                       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    Add to Cart • ${basePrice * quantity}
+                    Add to Cart • ₹{(basePrice * quantity).toLocaleString('en-IN')}
                   </>
                 )}
               </motion.button>

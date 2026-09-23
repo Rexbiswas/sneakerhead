@@ -1,14 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CartSidebar = ({ isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity }) => {
+    const navigate = useNavigate();
     const toggleCart = () => setIsCartOpen(!isCartOpen);
 
     const calculateTotal = () => {
-        return cartItems.reduce((total, item) => {
-            const price = parseFloat(item.price.replace('$', ''));
-            return total + (price * item.quantity);
-        }, 0).toFixed(2);
+        const total = cartItems.reduce((acc, item) => {
+            const price = parseFloat(String(item.price).replace(/[^0-9.]/g, '')) || 0;
+            return acc + (price * (item.quantity || 1));
+        }, 0);
+        return Math.round(total).toLocaleString('en-IN');
     };
 
     return (
@@ -94,7 +97,9 @@ const CartSidebar = ({ isCartOpen, setIsCartOpen, cartItems, removeFromCart, upd
                                                 {item.color && <span style={{ marginLeft: '5px' }}>Color: <span style={{display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', background: item.color, verticalAlign: 'middle'}}></span></span>}
                                             </div>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <span style={{ fontWeight: '800', color: '#f9c216', fontSize: '16px' }}>{item.price}</span>
+                                                <span style={{ fontWeight: '800', color: '#f9c216', fontSize: '16px' }}>
+                                                    {String(item.price).startsWith('₹') ? item.price : `₹${String(item.price).replace('$', '')}`}
+                                                </span>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: '#f5f5f5', borderRadius: '20px', padding: '2px 8px' }}>
                                                     <button onClick={() => updateQuantity(item.cartId, -1)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold' }}>-</button>
                                                     <span style={{ fontSize: '14px', fontWeight: 'bold' }}>{item.quantity}</span>
@@ -116,11 +121,15 @@ const CartSidebar = ({ isCartOpen, setIsCartOpen, cartItems, removeFromCart, upd
                             <div style={{ marginTop: '30px', paddingTop: '20px', borderTop: '2px dashed #eee' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', fontSize: '18px', fontWeight: 'bold' }}>
                                     <span>Total</span>
-                                    <span style={{ color: '#f9c216' }}>${calculateTotal()}</span>
+                                    <span style={{ color: '#f9c216' }}>₹{calculateTotal()}</span>
                                 </div>
                                 <motion.button 
                                     whileHover={{ scale: 1.02, background: '#1a1a1a', color: '#f9c216' }}
                                     whileTap={{ scale: 0.98 }}
+                                    onClick={() => {
+                                        setIsCartOpen(false);
+                                        navigate('/checkout');
+                                    }}
                                     style={{ 
                                         width: '100%', 
                                         padding: '15px', 

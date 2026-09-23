@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const drawerVariants = {
   hidden: { x: '100%', opacity: 0.8 },
@@ -65,6 +66,7 @@ const navItems = [
 ];
 
 const NavDrawer = ({ isOpen, onClose, openAuth }) => {
+  const { user, isAuthenticated, logout } = useAuth();
   // Close drawer on ESC key
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -186,24 +188,47 @@ const NavDrawer = ({ isOpen, onClose, openAuth }) => {
 
             {/* Footer */}
             <div className="drawer-footer">
-              <div className="drawer-auth-actions">
-                <button
-                  className="drawer-auth-btn drawer-login-btn"
-                  onClick={() => openAuth('login')}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                  Member Sign In
-                </button>
-                <button
-                  className="drawer-auth-btn drawer-vip-btn"
-                  onClick={() => openAuth('signup')}
-                >
-                  Join VIP Hub
-                </button>
-              </div>
+              {isAuthenticated ? (
+                <div className="drawer-logged-user">
+                  <div className="drawer-user-info">
+                    <div className="drawer-avatar">
+                      {user?.username?.charAt(0)?.toUpperCase() || 'U'}
+                    </div>
+                    <div>
+                      <div className="drawer-username">{user?.username}</div>
+                      <div className="drawer-email">{user?.email}</div>
+                    </div>
+                  </div>
+                  <button
+                    className="drawer-auth-btn drawer-logout-btn"
+                    onClick={() => {
+                      logout();
+                      onClose();
+                    }}
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <div className="drawer-auth-actions">
+                  <button
+                    className="drawer-auth-btn drawer-login-btn"
+                    onClick={() => openAuth('login')}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Member Sign In
+                  </button>
+                  <button
+                    className="drawer-auth-btn drawer-vip-btn"
+                    onClick={() => openAuth('signup')}
+                  >
+                    Join VIP Hub
+                  </button>
+                </div>
+              )}
 
               {/* Social Links */}
               <div className="drawer-socials">
