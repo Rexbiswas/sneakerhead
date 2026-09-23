@@ -353,3 +353,297 @@
         font-size: 14px;
     }
 }
+
+/* ============================================================
+   INNOVATION BLUEPRINT & PRECISION POINTERS
+   ============================================================ */
+.innovation-section {
+    position: relative;
+    min-height: 100vh;
+    background: #050505;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 90px 20px;
+}
+
+.innovation-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(78, 205, 196, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(78, 205, 196, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.innovation-radial-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(850px, 90vw);
+    height: min(500px, 60vh);
+    background: radial-gradient(ellipse at center, rgba(78, 205, 196, 0.12) 0%, rgba(78, 205, 196, 0.02) 45%, transparent 75%);
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.innovation-header {
+    text-align: center;
+    position: relative;
+    z-index: 5;
+    margin-bottom: 35px;
+}
+
+.innovation-sub-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(78, 205, 196, 0.08);
+    border: 1px solid rgba(78, 205, 196, 0.25);
+    color: #4ecdc4;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.innovation-header h2 {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.blueprint-content {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.blueprint-text {
+    position: absolute;
+    top: 50%;
+    /* left: 50%; */
+    transform: translate(-50%, -50%);
+    font-size: clamp(80px, 17vw, 220px) !important;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.025);
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
+    letter-spacing: 8px;
+}
+
+/* Blueprint Stage wrapping the shoe and hotspots 1:1 */
+.blueprint-stage {
+    position: relative;
+    width: min(720px, 86vw);
+    aspect-ratio: 666 / 375;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+}
+
+.blueprint-stage .innovation-sneaker {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 45px rgba(78, 205, 196, 0.2)) contrast(1.05) brightness(0.95);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Hotspot Anchor */
+.blueprint-hotspot-anchor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Target Dot directly ON the shoe */
+.hotspot-target-dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.hotspot-core-dot {
+    width: 8px;
+    height: 8px;
+    background: #4ecdc4;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #4ecdc4, 0 0 20px #4ecdc4;
+    position: relative;
+    z-index: 3;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hotspot-target-dot:hover .hotspot-core-dot {
+    transform: scale(1.4);
+    background: #ffffff;
+    box-shadow: 0 0 12px #ffffff, 0 0 25px #4ecdc4;
+}
+
+.hotspot-ring-static {
+    position: absolute;
+    inset: 2px;
+    border: 1px solid rgba(78, 205, 196, 0.5);
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.hotspot-pulse-ring {
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid #4ecdc4;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Extension Arm */
+.hotspot-arm {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    pointer-events: auto;
+    gap: 0;
+}
+
+.hotspot-arm-left {
+    right: 12px;
+    flex-direction: row;
+}
+
+.hotspot-arm-right {
+    left: 12px;
+    flex-direction: row;
+}
+
+/* Connector Line */
+.hotspot-line {
+    height: 1.5px;
+    width: clamp(35px, 6vw, 75px);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.hotspot-arm-left .hotspot-line {
+    background: linear-gradient(90deg, rgba(78, 205, 196, 0.15), #4ecdc4);
+}
+
+.hotspot-arm-right .hotspot-line {
+    background: linear-gradient(90deg, #4ecdc4, rgba(78, 205, 196, 0.15));
+}
+
+.hotspot-line-node {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 5px;
+    height: 5px;
+    background: #4ecdc4;
+    box-shadow: 0 0 6px #4ecdc4;
+}
+
+.hotspot-arm-left .hotspot-line-node {
+    left: 0;
+}
+
+.hotspot-arm-right .hotspot-line-node {
+    right: 0;
+}
+
+/* High-Tech Badge Card */
+.hotspot-badge {
+    background: rgba(10, 15, 20, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(78, 205, 196, 0.35);
+    border-radius: 6px;
+    padding: 6px 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), inset 0 0 12px rgba(78, 205, 196, 0.05);
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    user-select: none;
+}
+
+.hotspot-arm-left .hotspot-badge {
+    text-align: right;
+}
+
+.hotspot-arm-right .hotspot-badge {
+    text-align: left;
+}
+
+.hotspot-badge:hover,
+.hotspot-badge.active {
+    border-color: #4ecdc4;
+    box-shadow: 0 0 25px rgba(78, 205, 196, 0.4), inset 0 0 15px rgba(78, 205, 196, 0.15);
+    transform: translateY(-2px);
+}
+
+.hotspot-badge-tag {
+    font-size: 9px;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 1.5px;
+    color: #4ecdc4;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.hotspot-badge-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.hotspot-badge:hover .hotspot-badge-title,
+.hotspot-badge.active .hotspot-badge-title {
+    color: #4ecdc4;
+}
+
+.hotspot-badge-desc {
+    font-size: 9px;
+    color: #8fa0b0;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+}

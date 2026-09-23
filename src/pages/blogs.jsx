@@ -60,8 +60,9 @@ const Blogs = (props) => {
   const yOrb = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
-    <div style={{ background: "#f8f9fa", minHeight: "100vh", position: "relative", overflow: "hidden" }} ref={containerRef}>
+    <>
       <Navbar {...props} />
+      <div className="blogs-page-wrapper" style={{ background: "#f8f9fa", minHeight: "100vh", position: "relative", overflow: "hidden" }} ref={containerRef}>
 
       {/* Dynamic Background Elements */}
       <motion.div
@@ -185,6 +186,7 @@ const Blogs = (props) => {
       </div>
       <Footer />
     </div>
+  </>
   );
 };
 

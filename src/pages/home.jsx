@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import '../style/home.css'; 
@@ -212,104 +212,221 @@ function FeaturedCollection() {
   );
 };
 
+const BLUEPRINT_FEATURES = [
+  {
+    id: 'mesh',
+    side: 'left',
+    x: 37,
+    y: 53,
+    tag: 'SPEC 01 // UPPER',
+    title: 'Ultra-Light Mesh',
+    desc: '3D Breathable AeroWeave',
+    delay: 0.15
+  },
+  {
+    id: 'cushion',
+    side: 'left',
+    x: 27,
+    y: 70,
+    tag: 'SPEC 04 // DAMPING',
+    title: 'Shock Absorption',
+    desc: 'Dual Air-Chamber Outsole',
+    delay: 0.6
+  },
+  {
+    id: 'collar',
+    side: 'right',
+    x: 67,
+    y: 36,
+    tag: 'SPEC 02 // ERGO',
+    title: 'Anatomic Fit',
+    desc: 'Memory Foam Heel-Lock',
+    delay: 0.3
+  },
+  {
+    id: 'sole',
+    side: 'right',
+    x: 58,
+    y: 69,
+    tag: 'SPEC 03 // PROPULSION',
+    title: 'Reactive Carbon Sole',
+    desc: 'Torsional Carbon Plate',
+    delay: 0.45
+  },
+];
+
 function InnovationSection() {
+  const sectionRef = useRef(null);
+  const [activeFeature, setActiveFeature] = useState(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  });
+
+  const blueprintY = useTransform(scrollYProgress, [0, 1], [-45, 45]);
+  const shoeScale = useTransform(scrollYProgress, [0.15, 0.5], [0.94, 1]);
+  const shoeRotate = useTransform(scrollYProgress, [0.2, 0.8], [-2, 2]);
+
   return (
-    <div className="innovation-section" style={{
-      position: 'relative',
-      minHeight: '100vh',
-      background: '#050505',
-      overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderTop: '1px solid #222'
-    }}>
-      {/* Grid Background */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-        opacity: 0.5
-      }}></div>
+    <section ref={sectionRef} className="innovation-section">
+      {/* Background Cyber Grid & Ambience */}
+      <div className="innovation-grid-bg" />
+      <div className="innovation-radial-glow" />
 
-      <div className="innovation-content" style={{ position: 'relative', width: '100%', maxWidth: '1200px', height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {/* Section Header */}
+      <motion.div
+        className="innovation-header"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.3 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="innovation-sub-badge">
+          <span>●</span>
+          <span>Precision Engineering</span>
+        </div>
+        <h2>Architecture & Specs</h2>
+      </motion.div>
 
-        {/* Big Text Behind */}
+      <div className="blueprint-content">
+        {/* Big Watermark Text Behind */}
         <motion.h1
           className="blueprint-text"
-          initial={{ opacity: 0, scale: 0.8 }}
+          style={{ y: blueprintY }}
+          initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          style={{
-            position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-            fontSize: '20vw', fontWeight: '900', color: '#0f0f0f', whiteSpace: 'nowrap', zIndex: 0,
-            userSelect: 'none'
-          }}>
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.8 }}
+        >
           BLUEPRINT
         </motion.h1>
 
-        {/* Sneaker */}
-        <motion.img
-          className="innovation-sneaker"
-          src="sneaker_1.png"
-          initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: -15 }}
-          transition={{ duration: 0.8, type: 'spring' }}
-          style={{
-            width: '60%', maxWidth: '700px', zIndex: 2,
-            filter: 'drop-shadow(0 0 50px rgba(78, 205, 196, 0.15)) grayscale(100%) contrast(1.1) brightness(0.8)'
-          }}
-        />
+        {/* Sneaker Stage */}
+        <motion.div
+          className="blueprint-stage"
+          style={{ scale: shoeScale, rotate: shoeRotate }}
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.25 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+        >
+          <img
+            className="innovation-sneaker"
+            src="sneaker_1.png"
+            alt="Sneaker Anatomy Blueprint"
+            loading="lazy"
+          />
 
-        {/* Hotspots */}
-        <Hotspot top="20%" left="15%" label="Ultra-Light Mesh" delay={0.2} />
-        <Hotspot top="70%" left="75%" label="Reactive Carbon Sole" delay={0.4} />
-        <Hotspot top="40%" left="80%" label="Anatomic Fit" delay={0.6} />
-        <Hotspot top="85%" left="30%" label="Shock Absorption" delay={0.8} />
-
+          {/* Precision Anchored Hotspots */}
+          {BLUEPRINT_FEATURES.map((feature) => (
+            <BlueprintHotspot
+              key={feature.id}
+              feature={feature}
+              isActive={activeFeature === feature.id}
+              onHover={() => setActiveFeature(feature.id)}
+              onLeave={() => setActiveFeature(null)}
+            />
+          ))}
+        </motion.div>
       </div>
-    </div>
-  )
+    </section>
+  );
 }
 
-function Hotspot({ top, left, label, delay }) {
+function BlueprintHotspot({ feature, isActive, onHover, onLeave }) {
+  const { side, x, y, tag, title, desc, delay } = feature;
+
   return (
-    <motion.div
-      className="hotspot"
-      initial={{ opacity: 0, width: 0 }}
-      whileInView={{ opacity: 1, width: 'auto' }}
-      transition={{ delay, duration: 0.5 }}
-      style={{ position: 'absolute', top, left, zIndex: 10, display: 'flex', alignItems: 'center', gap: '15px' }}
+    <div
+      className={`blueprint-hotspot-anchor hotspot-${side}`}
+      style={{
+        left: `${x}%`,
+        top: `${y}%`,
+      }}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
     >
-      <div style={{ position: 'relative', width: '12px', height: '12px' }}>
-        <div style={{ width: '100%', height: '100%', background: '#4ecdc4', borderRadius: '50%', boxShadow: '0 0 10px #4ecdc4', position: 'relative', zIndex: 2 }}></div>
-        <motion.div
-          animate={{ scale: [1, 2.5], opacity: [0.8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          style={{ position: 'absolute', inset: 0, background: '#4ecdc4', borderRadius: '50%', zIndex: 1 }}
-        />
-      </div>
-
+      {/* Target Dot directly ON the shoe surface */}
       <motion.div
-        initial={{ width: 0 }}
-        whileInView={{ width: '50px' }}
-        transition={{ delay: delay + 0.2, duration: 0.4 }}
-        style={{ height: '1px', background: '#4ecdc4' }}
-      />
+        className="hotspot-target-dot"
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: false, amount: 0.3 }}
+        transition={{ delay, duration: 0.45, type: 'spring', stiffness: 260, damping: 18 }}
+      >
+        <div
+          className="hotspot-core-dot"
+          style={isActive ? { transform: 'scale(1.4)', background: '#ffffff', boxShadow: '0 0 12px #ffffff, 0 0 25px #4ecdc4' } : {}}
+        />
+        <div className="hotspot-ring-static" />
+        <motion.div
+          className="hotspot-pulse-ring"
+          animate={{ scale: [1, 2.5], opacity: [0.85, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeOut', delay: delay * 0.4 }}
+        />
+      </motion.div>
 
-      <motion.span
-        initial={{ opacity: 0, x: -10 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ delay: delay + 0.4 }}
-        style={{
-          color: '#4ecdc4', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px',
-          fontSize: '12px', background: 'rgba(0,0,0,0.8)', padding: '5px 12px', borderRadius: '4px',
-          border: '1px solid rgba(78, 205, 196, 0.3)', whiteSpace: 'nowrap'
-        }}>
-        {label}
-      </motion.span>
-    </motion.div>
-  )
+      {/* Extension Arm: Line + Tech Badge */}
+      <div className={`hotspot-arm hotspot-arm-${side}`}>
+        {side === 'left' ? (
+          <>
+            {/* Tech Badge */}
+            <motion.div
+              className={`hotspot-badge ${isActive ? 'active' : ''}`}
+              initial={{ opacity: 0, x: -16, scale: 0.9 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ delay: delay + 0.28, duration: 0.38, ease: 'easeOut' }}
+            >
+              <span className="hotspot-badge-tag">{tag}</span>
+              <span className="hotspot-badge-title">{title}</span>
+              <span className="hotspot-badge-desc">{desc}</span>
+            </motion.div>
+
+            {/* Connecting Line extending from badge to dot */}
+            <motion.div
+              className="hotspot-line"
+              initial={{ scaleX: 0, opacity: 0 }}
+              whileInView={{ scaleX: 1, opacity: 1 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ delay: delay + 0.14, duration: 0.32, ease: 'easeOut' }}
+              style={{ transformOrigin: 'right center' }}
+            >
+              <div className="hotspot-line-node" />
+            </motion.div>
+          </>
+        ) : (
+          <>
+            {/* Connecting Line extending from dot to badge */}
+            <motion.div
+              className="hotspot-line"
+              initial={{ scaleX: 0, opacity: 0 }}
+              whileInView={{ scaleX: 1, opacity: 1 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ delay: delay + 0.14, duration: 0.32, ease: 'easeOut' }}
+              style={{ transformOrigin: 'left center' }}
+            >
+              <div className="hotspot-line-node" />
+            </motion.div>
+
+            {/* Tech Badge */}
+            <motion.div
+              className={`hotspot-badge ${isActive ? 'active' : ''}`}
+              initial={{ opacity: 0, x: 16, scale: 0.9 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ delay: delay + 0.28, duration: 0.38, ease: 'easeOut' }}
+            >
+              <span className="hotspot-badge-tag">{tag}</span>
+              <span className="hotspot-badge-title">{title}</span>
+              <span className="hotspot-badge-desc">{desc}</span>
+            </motion.div>
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
 
 function Card3D({ title, subtitle, image, color }) {

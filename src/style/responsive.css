@@ -4,9 +4,63 @@
         padding-bottom: 84px !important;
     }
 
-    /* Hide top floating navbar in mobile view */
+    /* Mobile Fixed Top Floating Island Navbar */
     .navbar-wrapper {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        padding: 10px 14px !important;
+        z-index: 9950 !important;
+        pointer-events: none !important;
+        box-sizing: border-box !important;
+    }
+
+    .navbar {
+        pointer-events: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 8px 12px !important;
+        background: rgba(255, 255, 255, 0.78) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 30px -4px rgba(35, 25, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    /* Hide desktop center nav pill in mobile top navbar */
+    .nav-center-pill {
         display: none !important;
+    }
+
+    /* Right Action Component - Compact for Mobile */
+    .nav-component {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+
+    /* Show Mobile Menu Drawer Toggle in Top Navbar */
+    .menu-drawer-toggle {
+        display: flex !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 11px !important;
+    }
+
+    /* Spacing adjustments for pages under fixed navbar */
+    .home-container {
+        padding-top: 75px !important;
+    }
+
+    .blogs-page-wrapper {
+        padding-top: 70px !important;
     }
 
     /* Mobile Bottom Navigation Bar */
@@ -131,26 +185,59 @@
 }
 
 @media (max-width: 640px) {
-    .nav-profile-name {
-        display: none;
+    .navbar-wrapper {
+        padding: 8px 10px !important;
     }
 
-    .nav-login-btn {
-        width: 36px;
-        height: 36px;
-        padding: 0;
+    .navbar {
+        padding: 6px 10px !important;
+        border-radius: 14px !important;
     }
 
-    .nav-profile-btn {
-        padding: 4px 6px;
+    .logo {
+        gap: 8px !important;
+    }
+
+    .logo-container {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 10px !important;
     }
 
     .logo-text h1 {
-        font-size: 18px;
+        font-size: 16px !important;
     }
 
     .logo-badge {
-        display: none;
+        display: none !important;
+    }
+
+    .nav-profile-name {
+        display: none !important;
+    }
+
+    .nav-login-btn {
+        width: 34px !important;
+        height: 34px !important;
+        padding: 0 !important;
+        border-radius: 10px !important;
+    }
+
+    .nav-profile-btn {
+        padding: 3px !important;
+        border-radius: 10px !important;
+    }
+
+    .nav-component-wishlist,
+    .nav-component-cart,
+    .menu-drawer-toggle {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 10px !important;
+    }
+
+    .nav-component {
+        gap: 5px !important;
     }
 
     .link-drawer-panel {
@@ -159,6 +246,38 @@
 }
 
 @media (max-width: 480px) {
+    .navbar-wrapper {
+        padding: 6px 8px !important;
+    }
+
+    .navbar {
+        padding: 5px 8px !important;
+        border-radius: 12px !important;
+    }
+
+    .logo-container {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 8px !important;
+    }
+
+    .logo-text h1 {
+        font-size: 14px !important;
+        letter-spacing: -0.3px !important;
+    }
+
+    .nav-component-wishlist,
+    .nav-component-cart,
+    .menu-drawer-toggle,
+    .nav-login-btn {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .nav-component {
+        gap: 4px !important;
+    }
+
     .nav-component-pay {
         margin-right: 5px;
     }
@@ -181,7 +300,7 @@
         width: 95%;
         height: 350px;
         /* Rigid height */
-        margin: 10px auto;
+        margin: 74px auto 10px auto !important;
         overflow: hidden;
         position: relative;
         /* Ensure children are relative to this */
@@ -760,35 +879,57 @@
         gap: 30px !important;
     }
 
-    /* Innovation Section */
+    /* Innovation Blueprint Section */
     .innovation-section {
-        min-height: 80vh !important;
+        min-height: auto !important;
+        padding: 60px 10px !important;
     }
 
-    .innovation-content {
-        height: auto !important;
-        padding: 50px 0;
-        flex-direction: column;
+    .blueprint-content {
+        padding: 0 10px;
+    }
+
+    .blueprint-stage {
+        width: min(520px, 92vw) !important;
+        margin: 20px auto !important;
+    }
+
+    .blueprint-stage .innovation-sneaker {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
     }
 
     .blueprint-text {
-        font-size: 18vw !important;
+        font-size: 16vw !important;
     }
 
-    .innovation-sneaker {
-        width: 85% !important;
-        max-width: 400px !important;
-        margin: 20px 0;
+    .hotspot-line {
+        width: clamp(20px, 4vw, 36px) !important;
+    }
+
+    .hotspot-badge {
+        padding: 4px 8px !important;
+    }
+
+    .hotspot-badge-tag {
+        font-size: 8px !important;
+        letter-spacing: 1px !important;
+    }
+
+    .hotspot-badge-title {
+        font-size: 10px !important;
+    }
+
+    .hotspot-badge-desc {
+        display: none !important;
     }
 
     /* Card 3D */
     .card-3d-wrapper {
         height: 400px !important;
     }
-
-    /* Hotspots - Adjust positions slightly for mobile if needed, 
-       or let them float. Hiding on very small screens might be cleaner 
-       but let's keep them for now. */
 }
 
 @media (max-width: 480px) {
@@ -800,17 +941,41 @@
         height: 380px !important;
     }
 
-    .innovation-sneaker {
-        width: 95% !important;
+    .blueprint-stage {
+        width: 95vw !important;
+        margin: 15px auto !important;
+    }
+
+    .blueprint-stage .innovation-sneaker {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
     }
 
     .blueprint-text {
-        font-size: 20vw !important;
+        font-size: 18vw !important;
     }
 
-    .hotspot {
-        /* On very small screens, maybe scale down hotspots */
-        transform: scale(0.8);
+    .hotspot-line {
+        width: 14px !important;
+    }
+
+    .hotspot-badge {
+        padding: 3px 6px !important;
+        border-radius: 4px !important;
+    }
+
+    .hotspot-badge-tag {
+        display: none !important;
+    }
+
+    .hotspot-badge-title {
+        font-size: 8.5px !important;
+    }
+
+    .hotspot-core-dot {
+        width: 6px !important;
+        height: 6px !important;
     }
 }
 
@@ -819,32 +984,23 @@
 /* Galaxy S8+ (360px x 740px) & Z Fold 5 Cover (Narrow) */
 @media (max-width: 375px) {
     .logo-text h1 {
-        font-size: 18px !important;
-    }
-
-    .nav-component-pay a {
-        font-size: 10px !important;
-        margin-right: 2px !important;
-    }
-
-    .nav-component-pay span {
-        font-size: 10px !important;
+        font-size: 13.5px !important;
     }
 
     .nav-component-cart svg,
-    .menu-icon svg {
-        width: 18px !important;
-        height: 18px !important;
+    .menu-drawer-toggle svg,
+    .nav-component-wishlist svg,
+    .nav-login-btn svg {
+        width: 16px !important;
+        height: 16px !important;
     }
 
-    .nav-component-cart {
-        width: 35px !important;
-        height: 35px !important;
-    }
-
-    .menu-icon {
-        width: 35px !important;
-        height: 35px !important;
+    .nav-component-cart,
+    .menu-drawer-toggle,
+    .nav-component-wishlist,
+    .nav-login-btn {
+        width: 30px !important;
+        height: 30px !important;
     }
 
     /* Tighten home content for narrow screens */
@@ -890,19 +1046,25 @@
         text-align: center !important;
     }
 
-    .innovation-sneaker {
-        max-width: 400px !important;
+    .blueprint-stage {
+        width: min(520px, 90vw) !important;
+    }
+
+    .blueprint-stage .innovation-sneaker {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
     }
 
     /* Ensure Navbar fits well */
+    .nav-center-pill,
     .nav-links {
-        display: none;
-        /* Keep hamburger menu for this width usually, or switch to small text links */
+        display: none !important;
     }
 
+    .menu-drawer-toggle,
     .menu-icon {
-        display: flex;
-        /* Force hamburger if 768 is breakpoint */
+        display: flex !important;
     }
 
     /* Ensure Auth Modal fits in weird aspect ratios */
