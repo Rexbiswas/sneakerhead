@@ -4,63 +4,9 @@
         padding-bottom: 84px !important;
     }
 
-    /* Mobile Fixed Top Floating Island Navbar */
+    /* Hide top floating navbar in mobile view */
     .navbar-wrapper {
-        display: flex !important;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        padding: 10px 14px !important;
-        z-index: 9950 !important;
-        pointer-events: none !important;
-        box-sizing: border-box !important;
-    }
-
-    .navbar {
-        pointer-events: auto !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        padding: 8px 12px !important;
-        background: rgba(255, 255, 255, 0.78) !important;
-        backdrop-filter: blur(20px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.8) !important;
-        border-radius: 16px !important;
-        box-shadow: 0 8px 30px -4px rgba(35, 25, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-    }
-
-    /* Hide desktop center nav pill in mobile top navbar */
-    .nav-center-pill {
         display: none !important;
-    }
-
-    /* Right Action Component - Compact for Mobile */
-    .nav-component {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-    }
-
-    /* Show Mobile Menu Drawer Toggle in Top Navbar */
-    .menu-drawer-toggle {
-        display: flex !important;
-        width: 38px !important;
-        height: 38px !important;
-        border-radius: 11px !important;
-    }
-
-    /* Spacing adjustments for pages under fixed navbar */
-    .home-container {
-        padding-top: 75px !important;
-    }
-
-    .blogs-page-wrapper {
-        padding-top: 70px !important;
     }
 
     /* Mobile Bottom Navigation Bar */
@@ -185,59 +131,26 @@
 }
 
 @media (max-width: 640px) {
-    .navbar-wrapper {
-        padding: 8px 10px !important;
-    }
-
-    .navbar {
-        padding: 6px 10px !important;
-        border-radius: 14px !important;
-    }
-
-    .logo {
-        gap: 8px !important;
-    }
-
-    .logo-container {
-        width: 32px !important;
-        height: 32px !important;
-        border-radius: 10px !important;
-    }
-
-    .logo-text h1 {
-        font-size: 16px !important;
-    }
-
-    .logo-badge {
-        display: none !important;
-    }
-
     .nav-profile-name {
-        display: none !important;
+        display: none;
     }
 
     .nav-login-btn {
-        width: 34px !important;
-        height: 34px !important;
-        padding: 0 !important;
-        border-radius: 10px !important;
+        width: 36px;
+        height: 36px;
+        padding: 0;
     }
 
     .nav-profile-btn {
-        padding: 3px !important;
-        border-radius: 10px !important;
+        padding: 4px 6px;
     }
 
-    .nav-component-wishlist,
-    .nav-component-cart,
-    .menu-drawer-toggle {
-        width: 34px !important;
-        height: 34px !important;
-        border-radius: 10px !important;
+    .logo-text h1 {
+        font-size: 18px;
     }
 
-    .nav-component {
-        gap: 5px !important;
+    .logo-badge {
+        display: none;
     }
 
     .link-drawer-panel {
@@ -246,38 +159,6 @@
 }
 
 @media (max-width: 480px) {
-    .navbar-wrapper {
-        padding: 6px 8px !important;
-    }
-
-    .navbar {
-        padding: 5px 8px !important;
-        border-radius: 12px !important;
-    }
-
-    .logo-container {
-        width: 28px !important;
-        height: 28px !important;
-        border-radius: 8px !important;
-    }
-
-    .logo-text h1 {
-        font-size: 14px !important;
-        letter-spacing: -0.3px !important;
-    }
-
-    .nav-component-wishlist,
-    .nav-component-cart,
-    .menu-drawer-toggle,
-    .nav-login-btn {
-        width: 32px !important;
-        height: 32px !important;
-    }
-
-    .nav-component {
-        gap: 4px !important;
-    }
-
     .nav-component-pay {
         margin-right: 5px;
     }
@@ -300,7 +181,7 @@
         width: 95%;
         height: 350px;
         /* Rigid height */
-        margin: 74px auto 10px auto !important;
+        margin: 10px auto;
         overflow: hidden;
         position: relative;
         /* Ensure children are relative to this */
@@ -984,23 +865,32 @@
 /* Galaxy S8+ (360px x 740px) & Z Fold 5 Cover (Narrow) */
 @media (max-width: 375px) {
     .logo-text h1 {
-        font-size: 13.5px !important;
+        font-size: 18px !important;
+    }
+
+    .nav-component-pay a {
+        font-size: 10px !important;
+        margin-right: 2px !important;
+    }
+
+    .nav-component-pay span {
+        font-size: 10px !important;
     }
 
     .nav-component-cart svg,
-    .menu-drawer-toggle svg,
-    .nav-component-wishlist svg,
-    .nav-login-btn svg {
-        width: 16px !important;
-        height: 16px !important;
+    .menu-icon svg {
+        width: 18px !important;
+        height: 18px !important;
     }
 
-    .nav-component-cart,
-    .menu-drawer-toggle,
-    .nav-component-wishlist,
-    .nav-login-btn {
-        width: 30px !important;
-        height: 30px !important;
+    .nav-component-cart {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .menu-icon {
+        width: 35px !important;
+        height: 35px !important;
     }
 
     /* Tighten home content for narrow screens */
@@ -1057,14 +947,14 @@
     }
 
     /* Ensure Navbar fits well */
-    .nav-center-pill,
     .nav-links {
-        display: none !important;
+        display: none;
+        /* Keep hamburger menu for this width usually, or switch to small text links */
     }
 
-    .menu-drawer-toggle,
     .menu-icon {
-        display: flex !important;
+        display: flex;
+        /* Force hamburger if 768 is breakpoint */
     }
 
     /* Ensure Auth Modal fits in weird aspect ratios */
